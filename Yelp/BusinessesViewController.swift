@@ -14,6 +14,8 @@ class BusinessesViewController: UIViewController {
     
     var businesses = [Business]()
     
+    var searchBar: UISearchBar!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,23 +24,46 @@ class BusinessesViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
         
+        searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        searchBar.delegate = self
+        searchBar.showsCancelButton = true
+        navigationItem.titleView = searchBar
         
-        Business.searchWithTerm(term: "Thai") {
+        performSearch()
+        
+//        Business.searchWithTerm(term: "Restaurants", sort: .distance, categories: ["asianfusion", "burgers"], deals: true) {
+//            (businesses, error) in
+//            guard let businesses = businesses else { return }
+//            self.businesses = businesses
+//        }
+    }
+    
+    func performSearch(with term: String = "") {
+        Business.searchWithTerm(term: term) {
             (businesses, error) in
             guard let businesses = businesses else { return }
             self.businesses = businesses
             self.tableView.reloadData()
         }
-        
-        Business.searchWithTerm(term: "Restaurants", sort: .distance, categories: ["asianfusion", "burgers"], deals: true) {
-            (businesses, error) in
-            guard let businesses = businesses else { return }
-            self.businesses = businesses
-        }
- 
-        
     }
+    
 }
+
+extension BusinessesViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        performSearch(with: searchBar.text ?? "")
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        resignFirstResponder()
+        searchBar.resignFirstResponder()
+    }
+    
+}
+
 
 extension BusinessesViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -52,5 +77,8 @@ extension BusinessesViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        searchBar.resignFirstResponder()
+    }
 }

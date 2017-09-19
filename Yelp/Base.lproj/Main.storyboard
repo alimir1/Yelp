@@ -30,13 +30,13 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="222"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4dD-Rp-Kjh" id="riL-Le-daD">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="221.66666666666666"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a8Q-FW-Gjw">
                                                     <rect key="frame" x="8" y="8" width="100" height="120"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="120" id="8dm-1W-KAe"/>
+                                                        <constraint firstAttribute="height" constant="120" id="b90-bc-g01"/>
                                                         <constraint firstAttribute="width" constant="100" id="jJZ-37-7FS"/>
                                                     </constraints>
                                                 </imageView>
@@ -80,7 +80,6 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="a8Q-FW-Gjw" secondAttribute="bottom" constant="8" id="0Kp-Pr-fYu"/>
-                                                <constraint firstItem="vyW-xg-Fog" firstAttribute="leading" secondItem="a8Q-FW-Gjw" secondAttribute="trailing" constant="8" id="4CB-v1-egQ"/>
                                                 <constraint firstItem="7bV-jF-rEu" firstAttribute="centerY" secondItem="Z82-XQ-aOh" secondAttribute="centerY" id="4aE-xY-9e3"/>
                                                 <constraint firstAttribute="trailing" secondItem="vyW-xg-Fog" secondAttribute="trailing" constant="8" id="6hO-0Z-SwG"/>
                                                 <constraint firstItem="rea-un-d6b" firstAttribute="leading" secondItem="QHS-nH-HRf" secondAttribute="trailing" constant="8" id="7I3-ba-CIY"/>
@@ -92,12 +91,14 @@
                                                 <constraint firstItem="vyW-xg-Fog" firstAttribute="top" secondItem="Z82-XQ-aOh" secondAttribute="bottom" constant="8" id="ZNY-wC-ZUB"/>
                                                 <constraint firstItem="rea-un-d6b" firstAttribute="top" secondItem="riL-Le-daD" secondAttribute="top" constant="8" id="aDX-ma-7b2"/>
                                                 <constraint firstItem="QHS-nH-HRf" firstAttribute="top" secondItem="riL-Le-daD" secondAttribute="top" constant="8" id="dcn-eQ-nEv"/>
+                                                <constraint firstItem="vyW-xg-Fog" firstAttribute="leading" secondItem="QHS-nH-HRf" secondAttribute="leading" id="fRV-xp-h4R"/>
+                                                <constraint firstItem="iWH-P6-BNx" firstAttribute="leading" secondItem="QHS-nH-HRf" secondAttribute="leading" id="jbn-Ag-zIc"/>
                                                 <constraint firstItem="a8Q-FW-Gjw" firstAttribute="leading" secondItem="riL-Le-daD" secondAttribute="leading" constant="8" id="nUp-mv-hcL"/>
                                                 <constraint firstItem="Z82-XQ-aOh" firstAttribute="top" secondItem="QHS-nH-HRf" secondAttribute="bottom" constant="8" id="oML-vg-NEz"/>
                                                 <constraint firstItem="iWH-P6-BNx" firstAttribute="top" secondItem="vyW-xg-Fog" secondAttribute="bottom" constant="8" id="qkO-jI-1pM"/>
                                                 <constraint firstItem="a8Q-FW-Gjw" firstAttribute="top" secondItem="riL-Le-daD" secondAttribute="top" constant="8" id="rDs-zm-gbJ"/>
                                                 <constraint firstAttribute="trailing" secondItem="rea-un-d6b" secondAttribute="trailing" constant="8" id="uTu-vh-Yqj"/>
-                                                <constraint firstItem="Z82-XQ-aOh" firstAttribute="leading" secondItem="a8Q-FW-Gjw" secondAttribute="trailing" constant="8" id="x7a-lZ-mnq"/>
+                                                <constraint firstItem="Z82-XQ-aOh" firstAttribute="leading" secondItem="QHS-nH-HRf" secondAttribute="leading" id="w5P-dK-Mye"/>
                                                 <constraint firstAttribute="trailing" secondItem="iWH-P6-BNx" secondAttribute="trailing" constant="8" id="yTo-1H-gY8"/>
                                             </constraints>
                                         </tableViewCellContentView>
