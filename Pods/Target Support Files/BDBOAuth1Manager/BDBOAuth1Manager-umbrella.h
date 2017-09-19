@@ -1,4 +1,6 @@
+#ifdef __OBJC__
 #import <UIKit/UIKit.h>
+#endif
 
 #import "BDBOAuth1RequestOperationManager.h"
 #import "BDBOAuth1RequestSerializer.h"
