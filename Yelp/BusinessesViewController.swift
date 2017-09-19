@@ -10,34 +10,47 @@ import UIKit
 
 class BusinessesViewController: UIViewController {
     
-    var businesses: [Business]!
+    @IBOutlet var tableView: UITableView!
+    
+    var businesses = [Business]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
-                }
-            }
-            
-            }
-        )
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
         
-        /* Example of Yelp search with more search options specified
-         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-         self.businesses = businesses
-         
-         for business in businesses {
-         print(business.name!)
-         print(business.address!)
-         }
-         }
-         */
+        
+        Business.searchWithTerm(term: "Thai") {
+            (businesses, error) in
+            guard let businesses = businesses else { return }
+            self.businesses = businesses
+            self.tableView.reloadData()
+        }
+        
+        Business.searchWithTerm(term: "Restaurants", sort: .distance, categories: ["asianfusion", "burgers"], deals: true) {
+            (businesses, error) in
+            guard let businesses = businesses else { return }
+            self.businesses = businesses
+        }
+ 
         
     }
+}
+
+extension BusinessesViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return businesses.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "businessCell") as! BusinessCell
+        cell.business = businesses[indexPath.row]
+        return cell
+    }
+    
+    
 }
