@@ -13,13 +13,14 @@ class BusinessesViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var businesses = [Business]()
-    
     var isDownloadingMoreData = false
-
     var refreshControl: UIRefreshControl!
-    
     var searchBar: UISearchBar!
+    var searchTerm = SearchTerm()
 
+    
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,9 +33,11 @@ class BusinessesViewController: UIViewController {
         searchBar.sizeToFit()
         searchBar.delegate = self
         searchBar.showsCancelButton = true
+        searchBar.placeholder = "Search your favorite restaurant..."
         navigationItem.titleView = searchBar
         
-        performSearch()
+        searchTerm.term = "restaurants"
+        performSearch(with: searchTerm)
         
         self.refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshSearch), for: .valueChanged)
@@ -47,19 +50,13 @@ class BusinessesViewController: UIViewController {
         activityIndicatorView.startAnimating()
         footerView.addSubview(activityIndicatorView)
         tableView.tableFooterView = footerView
-        
-//        Business.searchWithTerm(term: "Restaurants", sort: .distance, categories: ["asianfusion", "burgers"], deals: true) {
-//            (businesses, error) in
-//            guard let businesses = businesses else { return }
-//            self.businesses = businesses
-//        }
     }
     
     
     // FIXME: Need to fetch more data from same keyword
-    func performMoreSearch() {
+    func performMoreSearch(with searchTerm: SearchTerm) {
         isDownloadingMoreData = true
-        Business.searchWithTerm(term: searchBar.text ?? "") {
+        Business.searchWithTerm(term: searchTerm.term) {
             (businesses, error) in
             guard let businesses = businesses else { return }
             for business in businesses {
@@ -70,17 +67,14 @@ class BusinessesViewController: UIViewController {
         }
     }
     
+    // MARK: - Helpers
     
     func refreshSearch(sender: UIRefreshControl) {
-        var term = ""
-        if let searchTerm = searchBar.text {
-            term = searchTerm
-        }
-        performSearch(with: term)
+        performSearch(with: searchTerm)
     }
     
-    func performSearch(with term: String = "") {
-        Business.searchWithTerm(term: term) {
+    func performSearch(with term: SearchTerm) {
+        Business.searchWithTerm(term: term.term, sort: term.sort, categories: term.categories, deals: term.deals) {
             (businesses, error) in
             guard let businesses = businesses else { return }
             self.businesses = businesses
@@ -100,7 +94,7 @@ extension BusinessesViewController: UIScrollViewDelegate {
         guard !isDownloadingMoreData else { return }
         
         if scrollView.contentOffset.y > scrollView.contentSize.height - tableView.bounds.height && tableView.isDragging {
-                performMoreSearch()
+                performMoreSearch(with: self.searchTerm)
         }
     }
 }
@@ -110,7 +104,8 @@ extension BusinessesViewController: UIScrollViewDelegate {
 extension BusinessesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        performSearch(with: searchBar.text ?? "")
+        searchTerm.term = searchBar.text ?? ""
+        performSearch(with: searchTerm)
         searchBar.resignFirstResponder()
     }
     
@@ -119,6 +114,30 @@ extension BusinessesViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
     }
     
+}
+
+// MARK: - Navigation
+
+extension BusinessesViewController {
+    
+    @IBAction func unwindToBusinessVC(segue: UIStoryboardSegue) {
+        if segue.identifier == "filtersVC" {
+            let filtersVC = segue.source as! FilterViewController
+            if let searchTerm = filtersVC.searchTerm {
+                self.searchTerm = searchTerm
+            }
+            
+            performSearch(with: searchTerm)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "filtersVC" {
+            let navCtrl = segue.destination as! UINavigationController
+            let filtersVC = navCtrl.topViewController as! FilterViewController
+            filtersVC.searchTerm = searchTerm
+        }
+    }
 }
 
 // MARK: - UITableView dataSource and delegate

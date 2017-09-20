@@ -32,18 +32,25 @@ class FilterViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     var filters = [Filter : [Any]]()
     
+    var searchTerm: SearchTerm?
+    
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         filters[.offeringDeal] = [true]
         filters[.distance] = (5...YelpMaxRadiusFilter).filter { $0 % 5 == 0 }
         filters[.sortBy] = [YelpSortMode.bestMatched, YelpSortMode.distance, YelpSortMode.highestRated]
-        filters[.category] = ["Afghan", "African", "Indian"]
+        filters[.category] = YelpCategories
         
-        super.viewDidLoad()
+        if searchTerm == nil { searchTerm = SearchTerm() }
     }
     
     @IBAction func onCancel(sender: AnyObject?) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onSave(sender: AnyObject?) {
+        performSegue(withIdentifier: "filtersVC", sender: self)
     }
     
 }
