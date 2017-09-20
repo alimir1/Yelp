@@ -8,19 +8,17 @@
 
 import Foundation
 
-var YelpCategories = ["African", "Arab", "Chinese", "French", "Greek", "Indian", "Italian", "Japanese", "Mexican", "Persian", "Russian", "Turkish"]
-
-//enum CategoryYelp: String {
-//    case african = "African"
-//    case arabian = "Arab"
-//    case chinese = "Chinese"
-//    case french = "French"
-//    case greek = "Greek"
-//    case indpak = "Indian"
-//    case italian = "Italian"
-//    case japanese = "Japanese"
-//    case mexican = "Mexican"
-//    case persian = "Persian"
-//    case russian = "Russian"
-//    case turkish = "Turkish"
-//}
+let YelpCategories = [
+    "african" : "African",
+    "arabian" : "Arab",
+    "chinese" : "Chinese",
+    "french" : "French",
+    "greek" : "Greek",
+    "indpak" : "Indian",
+    "italian" : "Italian",
+    "japanese" : "Japanese",
+    "mexican" : "Mexican",
+    "persian" : "Persian",
+    "russian" : "Russian",
+    "turkish" : "Turkish"
+]

@@ -59,9 +59,9 @@ class FilterViewController: UIViewController {
         }
         categoryFilters = catFilters
         
-        for category in YelpCategories {
-            if categoryFilters[category] == nil {
-                categoryFilters[category] = false
+        for (yelpCategory, _)  in YelpCategories {
+            if categoryFilters[yelpCategory] == nil {
+                categoryFilters[yelpCategory] = false
             }
         }
         
@@ -70,7 +70,7 @@ class FilterViewController: UIViewController {
         filters[.offeringDeal] = [true]
         filters[.distance] = (5...YelpMaxRadiusFilter).filter { $0 % 5 == 0 }
         filters[.sortBy] = [YelpSortMode.bestMatched, YelpSortMode.distance, YelpSortMode.highestRated]
-        filters[.category] = YelpCategories
+        filters[.category] = YelpCategories.map {$0.key}.sorted {$0 < $1}
         
         
     }
@@ -138,7 +138,7 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         case .category:
             let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
             let categories = filters[filter] as! [String]
-            retCell.filterNameLabel.text = categories[indexPath.row]
+            retCell.filterNameLabel.text = YelpCategories[categories[indexPath.row]] ?? ""
             retCell.filterSwitch.isOn = categoryFilters[categories[indexPath.row]] ?? false
             retCell.switchAction = {
                 isOn in
