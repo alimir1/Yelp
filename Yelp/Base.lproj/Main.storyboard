@@ -138,7 +138,7 @@
             </objects>
             <point key="canvasLocation" x="2726.0869565217395" y="357.06521739130437"/>
         </scene>
-        <!--Filter View Controller-->
+        <!--Filter-->
         <scene sceneID="2Mj-Yt-R4Q">
             <objects>
                 <viewController id="sNI-Nf-erw" customClass="FilterViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
@@ -226,12 +226,13 @@
                             <constraint firstItem="g0u-1m-UqM" firstAttribute="top" secondItem="tVu-2P-6iw" secondAttribute="bottom" id="yEi-eH-2Bw"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ku5-pU-RzL">
+                    <navigationItem key="navigationItem" title="Filter" id="ku5-pU-RzL">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="E1S-8k-Yf5">
                             <connections>
                                 <action selector="onCancelWithSender:" destination="sNI-Nf-erw" id="ixT-it-lxh"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Search" id="mHp-6j-bDz"/>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="tVu-2P-6iw" id="E3w-Ge-luS"/>

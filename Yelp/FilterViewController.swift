@@ -33,7 +33,7 @@ class FilterViewController: UIViewController {
     var filters: [Filter : [Any]] = [
         .offeringDeal : [true],
         .distance : [5, 10, 15],
-        .sortBy : ["Best Match", "Distance", "Highest Rated"],
+        .sortBy : [YelpSortMode.bestMatched, YelpSortMode.distance, YelpSortMode.highestRated],
         .category : ["Afghan", "African", "Indian"]
     ]
     
@@ -91,8 +91,8 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
             cell = retCell
         case .sortBy:
             let retCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
-            let sortNames = filters[filter] as! [String]
-            retCell.filterNameLabel.text = "\(sortNames[indexPath.row])"
+            let sortModes = filters[filter] as! [YelpSortMode]
+            retCell.filterNameLabel.text = sortModes[indexPath.row].description
             retCell.checkMark = true
             cell = retCell
         case .category:
