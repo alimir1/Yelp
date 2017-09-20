@@ -55,6 +55,10 @@ class FilterViewController: UIViewController {
 
 extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let filter = Filter(rawValue: section)!
         return filter == .offeringDeal ? nil : filter.description
@@ -70,6 +74,37 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        
+        let filter = Filter(rawValue: indexPath.section)!
+        var cell = UITableViewCell()
+        
+        switch filter {
+        case .offeringDeal:
+            let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
+            retCell.filterNameLabel.text = filter.description
+            cell = retCell
+        case .distance:
+            let retCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
+            let distances = filters[filter] as! [Int]
+            retCell.filterNameLabel.text = "\(distances[indexPath.row]) miles"
+            retCell.checkMark = true
+            cell = retCell
+        case .sortBy:
+            let retCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
+            let sortNames = filters[filter] as! [String]
+            retCell.filterNameLabel.text = "\(sortNames[indexPath.row])"
+            retCell.checkMark = true
+            cell = retCell
+        case .category:
+            let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
+            let categories = filters[filter] as! [String]
+            retCell.filterNameLabel.text = categories[indexPath.row]
+            cell = retCell
+        }
+        
+        return cell
     }
+    
+    
+    
 }
