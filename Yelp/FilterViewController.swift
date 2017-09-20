@@ -77,37 +77,35 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let filter = Filter(rawValue: indexPath.section)!
-        var cell = UITableViewCell()
-        
+        let cell = cellForFilter(filter: filter, withIndexPath: indexPath)
+        return cell
+    }
+    
+    func cellForFilter(filter: Filter, withIndexPath indexPath: IndexPath) -> UITableViewCell {
         switch filter {
         case .offeringDeal:
             let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
             retCell.filterNameLabel.text = filter.description
-            cell = retCell
+            return retCell
         case .distance:
             let retCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
             let distances = filters[filter] as! [Int]
             retCell.filterNameLabel.text = "\(distances[indexPath.row]) miles"
             retCell.checkMark = true
-            cell = retCell
+            return retCell
         case .sortBy:
             let retCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
             let sortModes = filters[filter] as! [YelpSortMode]
             retCell.filterNameLabel.text = sortModes[indexPath.row].description
             retCell.checkMark = true
-            cell = retCell
+            return retCell
         case .category:
             let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
             let categories = filters[filter] as! [String]
             retCell.filterNameLabel.text = categories[indexPath.row]
-            cell = retCell
+            return retCell
         }
-        
-        return cell
     }
-    
-    
     
 }
