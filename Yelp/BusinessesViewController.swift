@@ -57,7 +57,6 @@ class BusinessesViewController: UIViewController {
     // FIXME: Need to fetch more data from same keyword
     func performMoreSearch(with searchTerm: SearchTerm) {
         isDownloadingMoreData = true
-        MBProgressHUD.showAdded(to: self.view, animated: true)
         Business.searchWithTerm(term: searchTerm.term) {
             (businesses, error) in
             guard let businesses = businesses else { return }
@@ -66,7 +65,6 @@ class BusinessesViewController: UIViewController {
             }
             self.tableView.reloadData()
             self.isDownloadingMoreData = false
-            MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
     
