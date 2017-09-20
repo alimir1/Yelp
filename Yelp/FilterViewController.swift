@@ -29,19 +29,15 @@ enum Filter: Int, CustomStringConvertible {
 }
 
 class FilterViewController: UIViewController {
-    
-    var filters: [Filter : [Any]] = [
-        .offeringDeal : [true],
-        .distance : [5, 10, 15],
-        .sortBy : [YelpSortMode.bestMatched, YelpSortMode.distance, YelpSortMode.highestRated],
-        .category : ["Afghan", "African", "Indian"]
-    ]
-    
     @IBOutlet var tableView: UITableView!
+    var filters = [Filter : [Any]]()
     
     override func viewDidLoad() {
         
         filters[.offeringDeal] = [true]
+        filters[.distance] = (5...YelpMaxRadiusFilter).filter { $0 % 5 == 0 }
+        filters[.sortBy] = [YelpSortMode.bestMatched, YelpSortMode.distance, YelpSortMode.highestRated]
+        filters[.category] = ["Afghan", "African", "Indian"]
         
         super.viewDidLoad()
     }
