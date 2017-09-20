@@ -34,15 +34,45 @@ class FilterViewController: UIViewController {
     
     var searchTerm: SearchTerm?
     
+    var offeringDeal = false {
+        didSet {
+            searchTerm?.deals = offeringDeal
+        }
+    }
+    
+    var categoryFilters = [String : Bool]() {
+        didSet {
+            guard let searchTerm = searchTerm else { return }
+            let categoriesToAdd = categoryFilters.filter {$0.value != false}.map {$0.key}
+            searchTerm.categories = categoriesToAdd.count > 0 ? categoriesToAdd : nil
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var catFilters = [String : Bool]()
+        if let searchTerm = searchTerm, let categories = searchTerm.categories {
+            for category in categories {
+                catFilters[category] = true
+            }
+        }
+        categoryFilters = catFilters
+        
+        for category in YelpCategories {
+            if categoryFilters[category] == nil {
+                categoryFilters[category] = false
+            }
+        }
+        
+        offeringDeal = searchTerm?.deals ?? false
         
         filters[.offeringDeal] = [true]
         filters[.distance] = (5...YelpMaxRadiusFilter).filter { $0 % 5 == 0 }
         filters[.sortBy] = [YelpSortMode.bestMatched, YelpSortMode.distance, YelpSortMode.highestRated]
         filters[.category] = YelpCategories
         
-        if searchTerm == nil { searchTerm = SearchTerm() }
+        
     }
     
     @IBAction func onCancel(sender: AnyObject?) {
@@ -87,6 +117,11 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         case .offeringDeal:
             let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
             retCell.filterNameLabel.text = filter.description
+            retCell.filterSwitch.isOn = self.offeringDeal
+            retCell.switchAction = {
+                isOn in
+                self.offeringDeal = isOn
+            }
             return retCell
         case .distance:
             let retCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
@@ -104,6 +139,11 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
             let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
             let categories = filters[filter] as! [String]
             retCell.filterNameLabel.text = categories[indexPath.row]
+            retCell.filterSwitch.isOn = categoryFilters[categories[indexPath.row]] ?? false
+            retCell.switchAction = {
+                isOn in
+                self.categoryFilters[categories[indexPath.row]] = isOn
+            }
             return retCell
         }
     }

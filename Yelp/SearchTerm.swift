@@ -20,6 +20,11 @@ class SearchTerm: NSObject {
         self.sort = sort
         self.categories = categories
         self.deals = deals
+        if let distance = distanceLimit {
+            self.distanceLimit = distance*1609.34 // meters to miles
+        } else {
+            self.distanceLimit = nil
+        }
     }
     
 }

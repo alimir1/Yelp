@@ -59,12 +59,12 @@ class BusinessesViewController: UIViewController {
         isDownloadingMoreData = true
         Business.searchWithTerm(term: searchTerm.term) {
             (businesses, error) in
+            self.isDownloadingMoreData = false
             guard let businesses = businesses else { return }
             for business in businesses {
                 self.businesses.append(business)
             }
             self.tableView.reloadData()
-            self.isDownloadingMoreData = false
         }
     }
     
@@ -76,15 +76,20 @@ class BusinessesViewController: UIViewController {
     
     func performSearch(with term: SearchTerm) {
         MBProgressHUD.showAdded(to: self.view, animated: true)
-        Business.searchWithTerm(term: term.term, sort: term.sort, categories: term.categories, deals: term.deals) {
+        Business.searchWithTerm(term: term.term, sort: term.sort, categories: term.categories, deals: term.deals, distanceLimit: term.distanceLimit) {
             (businesses, error) in
-            guard let businesses = businesses else { return }
-            self.businesses = businesses
-            self.tableView.reloadData()
             if self.refreshControl.isRefreshing {
                 self.refreshControl.endRefreshing()
             }
             MBProgressHUD.hide(for: self.view, animated: true)
+            guard let businesses = businesses else {
+                print("no results!")
+                self.businesses = []
+                self.tableView.reloadData()
+                return
+            }
+            self.businesses = businesses
+            self.tableView.reloadData()
         }
     }
 }
@@ -129,7 +134,6 @@ extension BusinessesViewController {
             if let searchTerm = filtersVC.searchTerm {
                 self.searchTerm = searchTerm
             }
-            
             performSearch(with: searchTerm)
         }
     }
@@ -148,6 +152,7 @@ extension BusinessesViewController {
 extension BusinessesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        tableView.tableFooterView?.isHidden = !(businesses.count > 0)
         return businesses.count
     }
     
