@@ -113,38 +113,39 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func cellForFilter(filter: Filter, withIndexPath indexPath: IndexPath) -> UITableViewCell {
+        
+        
+        let switchCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
+        let selectionCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
+        
         switch filter {
         case .offeringDeal:
-            let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
-            retCell.filterNameLabel.text = filter.description
-            retCell.filterSwitch.isOn = self.offeringDeal
-            retCell.switchAction = {
+            switchCell.filterNameLabel.text = filter.description
+            switchCell.filterSwitch.isOn = self.offeringDeal
+            switchCell.switchAction = {
                 isOn in
                 self.offeringDeal = isOn
             }
-            return retCell
+            return switchCell
         case .distance:
-            let retCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
             let distances = filters[filter] as! [Int]
-            retCell.filterNameLabel.text = "\(distances[indexPath.row]) miles"
-            retCell.checkMark = true
-            return retCell
+            selectionCell.filterNameLabel.text = "\(distances[indexPath.row]) miles"
+            selectionCell.checkMark = true
+            return selectionCell
         case .sortBy:
-            let retCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
             let sortModes = filters[filter] as! [YelpSortMode]
-            retCell.filterNameLabel.text = sortModes[indexPath.row].description
-            retCell.checkMark = true
-            return retCell
+            selectionCell.filterNameLabel.text = sortModes[indexPath.row].description
+            selectionCell.checkMark = true
+            return selectionCell
         case .category:
-            let retCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
             let categories = filters[filter] as! [String]
-            retCell.filterNameLabel.text = YelpCategories[categories[indexPath.row]] ?? ""
-            retCell.filterSwitch.isOn = categoryFilters[categories[indexPath.row]] ?? false
-            retCell.switchAction = {
+            switchCell.filterNameLabel.text = YelpCategories[categories[indexPath.row]] ?? ""
+            switchCell.filterSwitch.isOn = categoryFilters[categories[indexPath.row]] ?? false
+            switchCell.switchAction = {
                 isOn in
                 self.categoryFilters[categories[indexPath.row]] = isOn
             }
-            return retCell
+            return switchCell
         }
     }
     
