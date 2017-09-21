@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SearchTerm: NSObject {
+struct SearchTerm {
     var term: String
     var sort: YelpSortMode?
     var categories: [String]?

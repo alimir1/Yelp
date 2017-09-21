@@ -42,9 +42,9 @@ class FilterViewController: UIViewController {
     
     var categoryFilters = [String : Bool]() {
         didSet {
-            guard let searchTerm = searchTerm else { return }
+            guard searchTerm != nil else { return }
             let categoriesToAdd = categoryFilters.filter {$0.value != false}.map {$0.key}
-            searchTerm.categories = categoriesToAdd.count > 0 ? categoriesToAdd : nil
+            searchTerm!.categories = categoriesToAdd.count > 0 ? categoriesToAdd : nil
         }
     }
     
@@ -52,7 +52,10 @@ class FilterViewController: UIViewController {
         super.viewDidLoad()
         
         var catFilters = [String : Bool]()
-        if let searchTerm = searchTerm, let categories = searchTerm.categories {
+        
+        guard searchTerm != nil else { return }
+        
+        if let categories = searchTerm!.categories {
             for category in categories {
                 catFilters[category] = true
             }
@@ -113,7 +116,6 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func cellForFilter(filter: Filter, withIndexPath indexPath: IndexPath) -> UITableViewCell {
-        
         
         let switchCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
         let selectionCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell
