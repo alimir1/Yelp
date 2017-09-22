@@ -56,10 +56,10 @@ class YelpClient: BDBOAuth1RequestOperationManager {
     }
     
     func searchWithTerm(_ term: String, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
-        return searchWithTerm(term, sort: nil, categories: nil, deals: nil, distanceLimit: nil, completion: completion)
+        return searchWithTerm(term, sort: nil, categories: nil, deals: nil, distanceLimit: nil, shouldLoadMore: false, completion: completion)
     }
     
-    func searchWithTerm(_ term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, distanceLimit: Double?, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
+    func searchWithTerm(_ term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, distanceLimit: Double?, shouldLoadMore: Bool, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
         // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
         
         // Default the location to San Francisco
@@ -68,6 +68,14 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         if let distanceLimit = distanceLimit {
             let distanceInMeters = distanceLimit*1610 // miles to meters
             parameters["radius_filter"] = distanceInMeters as AnyObject
+        }
+        
+        if shouldLoadMore {
+            parameters["offset"] = Pagination.nextPage.offSet as AnyObject
+            parameters["limit"] = Pagination.nextPage.limit as AnyObject
+        } else {
+            parameters["offset"] = Pagination.newPage.offSet as AnyObject
+            parameters["limit"] = Pagination.newPage.limit as AnyObject
         }
         
         if sort != nil {

@@ -53,11 +53,33 @@ class BusinessesViewController: UIViewController {
         footerViewSetup()
     }
     
+    // MARK: Target-Action
     
-    // FIXME: Need to fetch more data from same keyword
+    func refreshSearch(sender: UIRefreshControl) {
+        performSearch(with: searchTerm)
+    }
+    
+}
+
+
+// MARK: - Networking
+
+extension BusinessesViewController {
     func performMoreSearch(with searchTerm: SearchTerm) {
-        isDownloadingMoreData = true
+        /*isDownloadingMoreData = true
         Business.searchWithTerm(term: searchTerm.term) {
+            (businesses, error) in
+            self.isDownloadingMoreData = false
+            self.footerViewSetup()
+            guard let businesses = businesses else { return }
+            for business in businesses {
+                self.businesses.append(business)
+            }
+            self.tableView.reloadData()
+        }*/
+        
+        isDownloadingMoreData = true
+        Business.searchWithTerm(term: searchTerm.term, sort: searchTerm.sort, categories: searchTerm.categories, deals: searchTerm.deals, distanceLimit: searchTerm.distanceLimit, shouldLoadMore: true) {
             (businesses, error) in
             self.isDownloadingMoreData = false
             self.footerViewSetup()
@@ -68,13 +90,7 @@ class BusinessesViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
-    
-    // MARK: - Helpers
-    
-    func refreshSearch(sender: UIRefreshControl) {
-        performSearch(with: searchTerm)
-    }
-    
+
     func performSearch(with term: SearchTerm) {
         MBProgressHUD.showAdded(to: self.view, animated: true)
         Business.searchWithTerm(term: term.term, sort: term.sort, categories: term.categories, deals: term.deals, distanceLimit: term.distanceLimit) {
@@ -94,7 +110,6 @@ class BusinessesViewController: UIViewController {
         }
     }
 }
-
 
 // MARK: - Infinite scrolling
 
