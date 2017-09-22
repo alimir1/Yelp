@@ -48,6 +48,12 @@ class FilterViewController: UIViewController {
         }
     }
     
+    var distanceLimit = 5 {
+        didSet {
+            searchTerm?.distanceLimit = Double(distanceLimit)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,6 +75,8 @@ class FilterViewController: UIViewController {
         }
         
         offeringDeal = searchTerm?.deals ?? false
+        
+        distanceLimit = Int(searchTerm?.distanceLimit ?? 5)
         
         filters[.offeringDeal] = [true]
         filters[.distance] = (5...YelpMaxRadiusFilter).filter { $0 % 5 == 0 }
@@ -93,6 +101,13 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        let filter = Filter(rawValue: indexPath.section)!
+        if indexPath.section == 1 {
+            let distances = filters[filter] as! [Int]
+            distanceLimit = distances[indexPath.row]
+            self.tableView.reloadData()
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -132,7 +147,7 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         case .distance:
             let distances = filters[filter] as! [Int]
             selectionCell.filterNameLabel.text = "\(distances[indexPath.row]) miles"
-            selectionCell.checkMark = true
+            selectionCell.checkMark = distances[indexPath.row] == distanceLimit
             return selectionCell
         case .sortBy:
             let sortModes = filters[filter] as! [YelpSortMode]

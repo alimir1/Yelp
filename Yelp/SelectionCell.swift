@@ -12,10 +12,13 @@ class SelectionCell: UITableViewCell {
 
     @IBOutlet var filterNameLabel: UILabel!
     
-    var checkMark = false
+    var checkMark = false {
+        didSet {
+            accessoryType = checkMark ? .checkmark : .none
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        accessoryType = checkMark ? .checkmark : .none
     }
 }
