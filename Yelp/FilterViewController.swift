@@ -48,6 +48,12 @@ class FilterViewController: UIViewController {
         }
     }
     
+    var sortMode = YelpSortMode.bestMatched {
+        didSet {
+            searchTerm?.sort = sortMode
+        }
+    }
+    
     var distanceLimit = 5 {
         didSet {
             searchTerm?.distanceLimit = Double(distanceLimit)
@@ -74,6 +80,8 @@ class FilterViewController: UIViewController {
             }
         }
         
+        sortMode = searchTerm?.sort ?? .bestMatched
+        
         offeringDeal = searchTerm?.deals ?? false
         
         distanceLimit = Int(searchTerm?.distanceLimit ?? 5)
@@ -82,7 +90,6 @@ class FilterViewController: UIViewController {
         filters[.distance] = (5...YelpMaxRadiusFilter).filter { $0 % 5 == 0 }
         filters[.sortBy] = [YelpSortMode.bestMatched, YelpSortMode.distance, YelpSortMode.highestRated]
         filters[.category] = YelpCategories.map {$0.key}.sorted {$0 < $1}
-        
         
     }
     
@@ -108,6 +115,11 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
             self.tableView.reloadData()
         }
         
+        if indexPath.section == 2 {
+            let sortModes = filters[filter] as! [YelpSortMode]
+            sortMode = sortModes[indexPath.row]
+            self.tableView.reloadData()
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -152,7 +164,7 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         case .sortBy:
             let sortModes = filters[filter] as! [YelpSortMode]
             selectionCell.filterNameLabel.text = sortModes[indexPath.row].description
-            selectionCell.checkMark = true
+            selectionCell.checkMark = sortModes[indexPath.row] == sortMode
             return selectionCell
         case .category:
             let categories = filters[filter] as! [String]

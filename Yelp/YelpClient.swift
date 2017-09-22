@@ -17,7 +17,7 @@ let yelpConsumerSecret = "33QCvh5bIF5jIHR5klQr7RtBDhQ"
 let yelpToken = "uRcRswHFYa1VkDrGV6LAW2F8clGh5JHV"
 let yelpTokenSecret = "mqtKIxMIR4iBtBPZCmCLEb-Dz3Y"
 
-let YelpMaxRadiusFilter = 25
+let YelpMaxRadiusFilter = 20
 
 enum YelpSortMode: Int, CustomStringConvertible {
     case bestMatched = 0, distance, highestRated
@@ -63,10 +63,11 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
         
         // Default the location to San Francisco
-        var parameters: [String : AnyObject] = ["term": term as AnyObject, "ll": "37.77493, -122.419415" as AnyObject]
+        var parameters: [String : AnyObject] = ["term": "restaurants " + term as AnyObject, "ll": "37.77493, -122.419415" as AnyObject]
         
         if let distanceLimit = distanceLimit {
-            parameters["radius_filter"] = distanceLimit as AnyObject
+            let distanceInMeters = distanceLimit*1610 // miles to meters
+            parameters["radius_filter"] = distanceInMeters as AnyObject
         }
         
         if sort != nil {

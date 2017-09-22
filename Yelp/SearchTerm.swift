@@ -21,7 +21,7 @@ struct SearchTerm {
         self.categories = categories
         self.deals = deals
         if let distance = distanceLimit {
-            self.distanceLimit = distance*1609.34 // meters to miles
+            self.distanceLimit = distance
         } else {
             self.distanceLimit = nil
         }

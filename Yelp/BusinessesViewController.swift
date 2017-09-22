@@ -34,10 +34,9 @@ class BusinessesViewController: UIViewController {
         searchBar.sizeToFit()
         searchBar.delegate = self
         searchBar.showsCancelButton = true
-        searchBar.placeholder = "Search your favorite restaurant..."
+        searchBar.placeholder = "Restaurants"
         navigationItem.titleView = searchBar
         
-        searchTerm.term = "restaurants"
         performSearch(with: searchTerm)
         
         self.refreshControl = UIRefreshControl()
@@ -121,7 +120,6 @@ extension BusinessesViewController: UISearchBarDelegate {
         resignFirstResponder()
         searchBar.resignFirstResponder()
     }
-    
 }
 
 // MARK: - Navigation
