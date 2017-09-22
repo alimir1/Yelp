@@ -73,7 +73,7 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         if sort != nil {
             parameters["sort"] = sort!.rawValue as AnyObject?
         }
-        
+                
         if categories != nil && categories!.count > 0 {
             parameters["category_filter"] = (categories!).joined(separator: ",") as AnyObject?
         }

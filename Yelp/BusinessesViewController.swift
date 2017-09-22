@@ -18,6 +18,7 @@ class BusinessesViewController: UIViewController {
     var refreshControl: UIRefreshControl!
     var searchBar: UISearchBar!
     var searchTerm = SearchTerm()
+    var footerActivityIndicatorView: UIView!
 
     
     // MARK: - Lifecycle
@@ -43,12 +44,13 @@ class BusinessesViewController: UIViewController {
         tableView.insertSubview(refreshControl, at: 0)
         
         // Footer view for activity indicator (infinite scrolling)
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 50))
+        footerActivityIndicatorView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 50))
         let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        activityIndicatorView.center = footerView.center
+        activityIndicatorView.center = footerActivityIndicatorView.center
         activityIndicatorView.startAnimating()
-        footerView.addSubview(activityIndicatorView)
-        tableView.tableFooterView = footerView
+        footerActivityIndicatorView.addSubview(activityIndicatorView)
+        tableView.tableFooterView = footerActivityIndicatorView
+        footerViewSetup()
     }
     
     
@@ -58,6 +60,7 @@ class BusinessesViewController: UIViewController {
         Business.searchWithTerm(term: searchTerm.term) {
             (businesses, error) in
             self.isDownloadingMoreData = false
+            self.footerViewSetup()
             guard let businesses = businesses else { return }
             for business in businesses {
                 self.businesses.append(business)
@@ -96,9 +99,18 @@ class BusinessesViewController: UIViewController {
 // MARK: - Infinite scrolling
 
 extension BusinessesViewController: UIScrollViewDelegate {
+    
+    func footerViewSetup() {
+        if tableView.contentOffset.y > tableView.contentSize.height - tableView.bounds.height - 55 && tableView.isDragging {
+            footerActivityIndicatorView.isHidden = false
+        } else {
+            footerActivityIndicatorView.isHidden = true
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        footerViewSetup()
         guard !isDownloadingMoreData else { return }
-        
         if scrollView.contentOffset.y > scrollView.contentSize.height - tableView.bounds.height && tableView.isDragging {
                 performMoreSearch(with: self.searchTerm)
         }
@@ -160,6 +172,7 @@ extension BusinessesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableView.tableFooterView?.isHidden = !(businesses.count > 0)
+        footerViewSetup()
         return businesses.count
     }
     
