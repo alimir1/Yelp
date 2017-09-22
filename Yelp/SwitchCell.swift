@@ -3,7 +3,7 @@
 //  Yelp
 //
 //  Created by Ali Mir on 9/20/17.
-//  Copyright © 2017 Timothy Lee. All rights reserved.
+//  Copyright © 2017 Ali Mir. All rights reserved.
 //
 
 import UIKit
