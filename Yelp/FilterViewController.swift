@@ -8,26 +8,6 @@
 
 import UIKit
 
-enum Filter: Int, CustomStringConvertible {
-    case offeringDeal = 0
-    case distance
-    case sortBy
-    case category
-    
-    var description: String {
-        switch self {
-        case .offeringDeal:
-            return "Offering a Deal"
-        case .distance:
-            return "Distance"
-        case .sortBy:
-            return "Sort By"
-        case .category:
-            return "Category"
-        }
-    }
-}
-
 class FilterViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     var filters = [Filter : [Any]]()
