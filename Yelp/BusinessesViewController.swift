@@ -33,7 +33,6 @@ class BusinessesViewController: UIViewController {
         searchBar = UISearchBar()
         searchBar.sizeToFit()
         searchBar.delegate = self
-        searchBar.showsCancelButton = true
         searchBar.placeholder = "Restaurants"
         navigationItem.titleView = searchBar
         
@@ -109,6 +108,16 @@ extension BusinessesViewController: UIScrollViewDelegate {
 // MARK: - UISearchBar delegate
 
 extension BusinessesViewController: UISearchBarDelegate {
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = true
+        return true
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = false
+        return true
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchTerm.term = searchBar.text ?? ""
