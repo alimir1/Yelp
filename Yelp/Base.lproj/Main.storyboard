@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="222"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4dD-Rp-Kjh" id="riL-Le-daD">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="221"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a8Q-FW-Gjw">
@@ -162,7 +162,7 @@
                         <viewControllerLayoutGuide type="top" id="8vQ-Gq-2nl"/>
                         <viewControllerLayoutGuide type="bottom" id="dvz-TG-mzA"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="NjU-X9-Wv3">
+                    <view key="view" contentMode="scaleToFill" id="NjU-X9-Wv3">
                         <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -236,7 +236,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="switchCell" id="pDr-pJ-uch" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="56" width="414" height="55"/>
+                                        <rect key="frame" x="0.0" y="55" width="414" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pDr-pJ-uch" id="shi-dm-vaG">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
@@ -271,7 +271,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="selectionCell" id="4Ez-q0-WuF" customClass="SelectionCell" customModule="Yelp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="111" width="414" height="55"/>
+                                        <rect key="frame" x="0.0" y="110" width="414" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4Ez-q0-WuF" id="hrJ-sr-JaT">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>

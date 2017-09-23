@@ -71,11 +71,9 @@ extension BusinessesTableVC {
     }
     
     func searchBarSetup() {
-        searchBar = UISearchBar()
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 800, height: 30))
         searchBar.sizeToFit()
-        searchBar.placeholder = "Restaurants"
-        self.navigationController?.navigationItem.titleView = searchBar
-//        navigationItem.titleView = searchBar
+        businessesContainerVC.navigationItem.titleView = searchBar
     }
     
     func tableViewSetup() {
