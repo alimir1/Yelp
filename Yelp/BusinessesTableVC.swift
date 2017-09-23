@@ -15,9 +15,9 @@ class BusinessesTableVC: UIViewController, BusinessesContainerVCDelegate {
     var isDownloadingMoreData = false
     var refreshControl: UIRefreshControl!
     var searchBar: UISearchBar!
-    var businesses = [Business]()
     var footerActivityIndicatorView: UIView!
     var businessesContainerVC: BusinessesContainerVC!
+    var businesses = [Business]()
     
     var searchTerm = SearchTerm() {
         didSet {

@@ -66,6 +66,11 @@ extension BusinessesContainerVC {
             businessesTBVC.businessesContainerVC = self
         }
         
+        if segue.identifier == "mapVC" {
+            let mapVC = segue.destination as! BusinessesMapVC
+            mapVC.businessContainerVC = self
+        }
+        
         if segue.identifier == "filtersVC" {
             let navCtrl = segue.destination as! UINavigationController
             let filtersVC = navCtrl.topViewController as! FilterViewController

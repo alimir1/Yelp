@@ -16,6 +16,7 @@ class Business: NSObject {
     let distance: String?
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
+    let coordinate: (latitude: Double?, longitude: Double?)?
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
@@ -58,6 +59,12 @@ class Business: NSObject {
         }
         
         let distanceMeters = dictionary["distance"] as? NSNumber
+        
+        let coordinate = dictionary["coordinate"] as? NSDictionary
+        let latitude = coordinate?["latitude"] as? Double
+        let longitude = coordinate?["longitude"] as? Double
+        self.coordinate = (latitude: latitude, longitude: longitude)
+        
         if distanceMeters != nil {
             let milesPerMeter = 0.000621371
             distance = String(format: "%.2f mi", milesPerMeter * distanceMeters!.doubleValue)

@@ -183,7 +183,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A5h-P4-EOI" userLabel="Map Container View">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                                 <connections>
-                                    <segue destination="mnN-fp-3Lb" kind="embed" id="Sz7-Yc-AVI"/>
+                                    <segue destination="mnN-fp-3Lb" kind="embed" identifier="mapVC" id="Sz7-Yc-AVI"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qls-Ms-OVb" userLabel="TableView Container View">
@@ -222,7 +222,7 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Tah-pM-o9D">
                                 <rect key="frame" x="302" y="7" width="92" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="List">
+                                <state key="normal" title="Map">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
