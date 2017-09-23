@@ -15,11 +15,45 @@ import MBProgressHUD
 }
 
 class BusinessesContainerVC: UIViewController {
-    weak var delegate: BusinessesContainerVCDelegate?
+    
+    // MARK: Outlets
+    @IBOutlet var businessesTBContainerView: UIView!
+    @IBOutlet var businessesMapContainerView: UIView!
+    @IBOutlet var changeLayoutButton: UIButton!
+    
+    // MARK: Stored Properties
+    
     var searchTerm = SearchTerm()
+    weak var delegate: BusinessesContainerVCDelegate?
+    
+    // MARK: Property Observers
+    
+    var isListView = true {
+        didSet {
+            if isListView {
+                businessesTBContainerView.isHidden = false
+                businessesMapContainerView.isHidden = true
+                changeLayoutButton.setTitle("Map", for: .normal)
+            } else {
+                businessesTBContainerView.isHidden = true
+                businessesMapContainerView.isHidden = false
+                changeLayoutButton.setTitle("List", for: .normal)
+            }
+        }
+    }
+    
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+}
+
+// MARK: - Target-action
+
+extension BusinessesContainerVC {
+    @IBAction func onChangeLayout(sender: AnyObject?) {
+        isListView = !isListView
     }
 }
 

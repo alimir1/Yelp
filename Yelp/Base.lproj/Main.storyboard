@@ -147,12 +147,26 @@
                     <view key="view" contentMode="scaleToFill" id="muV-7l-Fie">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="i3K-ec-t3t">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="i3K-ec-t3t" secondAttribute="trailing" id="9W9-gH-Tph"/>
+                            <constraint firstItem="i3K-ec-t3t" firstAttribute="top" secondItem="FCQ-R3-277" secondAttribute="bottom" id="COh-3g-fsZ"/>
+                            <constraint firstItem="i3K-ec-t3t" firstAttribute="leading" secondItem="muV-7l-Fie" secondAttribute="leading" id="HaA-fE-NTV"/>
+                            <constraint firstItem="2HP-VE-SjC" firstAttribute="top" secondItem="i3K-ec-t3t" secondAttribute="bottom" id="duh-N8-mWA"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="i3K-ec-t3t" id="VO1-4a-cPg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hIg-WG-ES9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3612" y="1520"/>
+            <point key="canvasLocation" x="3611.594202898551" y="1519.5652173913045"/>
         </scene>
         <!--Businesses ContainerVC-->
         <scene sceneID="kiY-uc-J1h">
@@ -211,9 +225,17 @@
                                 <state key="normal" title="List">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="onChangeLayoutWithSender:" destination="pX5-cu-3nL" eventType="touchUpInside" id="eGU-Xe-fd2"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="businessesMapContainerView" destination="A5h-P4-EOI" id="LKM-UG-rE2"/>
+                        <outlet property="businessesTBContainerView" destination="Qls-Ms-OVb" id="j9c-bi-GB1"/>
+                        <outlet property="changeLayoutButton" destination="Tah-pM-o9D" id="6Z5-eb-x35"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3bq-kj-bLV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
