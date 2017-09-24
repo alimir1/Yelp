@@ -10,13 +10,13 @@ import UIKit
 
 class BusinessCell: UITableViewCell {
     
-    @IBOutlet var distanceLabel: UILabel!
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var listingImageView: UIImageView!
-    @IBOutlet var ratingImageView: UIImageView!
-    @IBOutlet var reviewsLabel: UILabel!
-    @IBOutlet var addressLabel: UILabel!
-    @IBOutlet var categoriesLabel: UILabel!
+    @IBOutlet fileprivate var distanceLabel: UILabel!
+    @IBOutlet fileprivate var nameLabel: UILabel!
+    @IBOutlet fileprivate var listingImageView: UIImageView!
+    @IBOutlet fileprivate var ratingImageView: UIImageView!
+    @IBOutlet fileprivate var reviewsLabel: UILabel!
+    @IBOutlet fileprivate var addressLabel: UILabel!
+    @IBOutlet fileprivate var categoriesLabel: UILabel!
     
     var business: Business! {
         didSet {

@@ -17,18 +17,18 @@ import MBProgressHUD
 class BusinessesContainerVC: UIViewController {
     
     // MARK: Outlets
-    @IBOutlet var changeLayoutButton: UIButton!
+    @IBOutlet fileprivate var changeLayoutButton: UIButton!
     
     // MARK: Stored Properties
     
     var mapViewController: BusinessesMapVC!
     var tableViewController: BusinessesTableVC!
-    var searchBar: UISearchBar!
-    var searchTerm = SearchTerm()
+    fileprivate var searchBar: UISearchBar!
+    fileprivate var searchTerm = SearchTerm()
     weak var delegate: BusinessesContainerVCDelegate?
     
     
-    var businesses = [Business]() {
+    fileprivate var businesses = [Business]() {
         didSet {
             if isListView {
                 tableViewController.businesses = businesses
@@ -41,7 +41,7 @@ class BusinessesContainerVC: UIViewController {
         }
     }
     
-    func refreshVCs() {
+    fileprivate func refreshVCs() {
         if isListView {
             removeVC(vc: mapViewController)
             addVC(vc: tableViewController)
@@ -60,7 +60,7 @@ class BusinessesContainerVC: UIViewController {
     
     // MARK: Property Observers
     
-    var isListView = true {
+    fileprivate var isListView = true {
         didSet {
             refreshVCs()
         }
@@ -78,7 +78,7 @@ class BusinessesContainerVC: UIViewController {
         performSearch()
     }
     
-    func addVC(vc: UIViewController) {
+    fileprivate func addVC(vc: UIViewController) {
         addChildViewController(vc)
         vc.view.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         vc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -86,13 +86,13 @@ class BusinessesContainerVC: UIViewController {
         vc.didMove(toParentViewController: self)
     }
     
-    func removeVC(vc: UIViewController) {
+    fileprivate func removeVC(vc: UIViewController) {
         vc.willMove(toParentViewController: nil)
         vc.view.removeFromSuperview()
         vc.removeFromParentViewController()
     }
     
-    func searchBarSetup() {
+    fileprivate func searchBarSetup() {
         searchBar = UISearchBar()
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
@@ -102,7 +102,7 @@ class BusinessesContainerVC: UIViewController {
 // MARK: - Target-action
 
 extension BusinessesContainerVC {
-    @IBAction func onChangeLayout(sender: AnyObject?) {
+    @IBAction fileprivate func onChangeLayout(sender: AnyObject?) {
         isListView = !isListView
     }
 }

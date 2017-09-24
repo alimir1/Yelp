@@ -9,18 +9,18 @@
 import UIKit
 
 class FilterViewController: UIViewController {
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet fileprivate var tableView: UITableView!
     var filters = [Filter : [Any]]()
     
     var searchTerm: SearchTerm?
     
-    var offeringDeal = false {
+    fileprivate var offeringDeal = false {
         didSet {
             searchTerm?.deals = offeringDeal
         }
     }
     
-    var categoryFilters = [String : Bool]() {
+    fileprivate var categoryFilters = [String : Bool]() {
         didSet {
             guard searchTerm != nil else { return }
             let categoriesToAdd = categoryFilters.filter {$0.value != false}.map {$0.key}
@@ -28,13 +28,13 @@ class FilterViewController: UIViewController {
         }
     }
     
-    var sortMode = YelpSortMode.bestMatched {
+    fileprivate var sortMode = YelpSortMode.bestMatched {
         didSet {
             searchTerm?.sort = sortMode
         }
     }
     
-    var distanceLimit = 5 {
+    fileprivate var distanceLimit = 5 {
         didSet {
             searchTerm?.distanceLimit = Double(distanceLimit)
         }
@@ -73,11 +73,11 @@ class FilterViewController: UIViewController {
         
     }
     
-    @IBAction func onCancel(sender: AnyObject?) {
+    @IBAction fileprivate func onCancel(sender: AnyObject?) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func onSave(sender: AnyObject?) {
+    @IBAction fileprivate func onSave(sender: AnyObject?) {
         performSegue(withIdentifier: "filtersVC", sender: self)
     }
     
@@ -122,7 +122,7 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func cellForFilter(filter: Filter, withIndexPath indexPath: IndexPath) -> UITableViewCell {
+    fileprivate func cellForFilter(filter: Filter, withIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let switchCell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as! SwitchCell
         let selectionCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell") as! SelectionCell

@@ -14,6 +14,7 @@ class YelpAnnotation: NSObject, MKAnnotation {
     var title: String?
     var subtitle: String?
     var atIndex: Int?
+    
     init(coordinate: CLLocationCoordinate2D, at index: Int) {
         self.coordinate = coordinate
         self.atIndex = index
@@ -24,8 +25,8 @@ class YelpAnnotation: NSObject, MKAnnotation {
 
 class BusinessesMapVC: UIViewController {
     
-    @IBOutlet var mapView: MKMapView!
-    var annotations = [MKAnnotation]()
+    @IBOutlet fileprivate var mapView: MKMapView!
+    fileprivate var annotations = [MKAnnotation]()
     
     var businesses = [Business]() {
         didSet {
@@ -39,7 +40,7 @@ class BusinessesMapVC: UIViewController {
         mapView.delegate = self
     }
     
-    func addAnnotationsToMap() {
+    fileprivate func addAnnotationsToMap() {
         if annotations.count > 0 { mapView.removeAnnotations(annotations) }
         annotations.removeAll()
         for (index, business) in businesses.enumerated() {

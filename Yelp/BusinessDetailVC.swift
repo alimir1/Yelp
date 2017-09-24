@@ -11,33 +11,35 @@ import MapKit
 
 class BusinessDetailVC: UITableViewController {
     
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var ratingImageView: UIImageView!
-    @IBOutlet var categoriesLabel: UILabel!
-    @IBOutlet var numReviewsLabel: UILabel!
-    @IBOutlet var isClosedLabel: UILabel!
-    @IBOutlet var businessImageView: UIImageView!
-    @IBOutlet var mapView: MKMapView!
-    @IBOutlet var displayAddressLabel: UILabel!
-    @IBOutlet var displayPhoneLabel: UILabel!
+    @IBOutlet fileprivate var nameLabel: UILabel!
+    @IBOutlet fileprivate var ratingImageView: UIImageView!
+    @IBOutlet fileprivate var categoriesLabel: UILabel!
+    @IBOutlet fileprivate var numReviewsLabel: UILabel!
+    @IBOutlet fileprivate var isClosedLabel: UILabel!
+    @IBOutlet fileprivate var businessImageView: UIImageView!
+    @IBOutlet fileprivate var mapView: MKMapView!
+    @IBOutlet fileprivate var displayAddressLabel: UILabel!
+    @IBOutlet fileprivate var displayPhoneLabel: UILabel!
     
     var business: Business!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationItem.title = business.name
+        setupViews()
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 50
         
-        if let coordinate = business.coordinate, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            
-            mapView.addAnnotation(annotation)
-            mapView.showAnnotations([annotation], animated: true)
-        }
-        
+    }
+    
+    fileprivate func setupViews() {
+        setupLabels()
+        setupImageViews()
+        setupAnnotation()
+    }
+    
+    fileprivate func setupLabels() {
         self.nameLabel.text = business.name
-        self.ratingImageView.setImageWith(business.ratingImageURL!)
         self.numReviewsLabel.text = "\(business.reviewCount ?? 0) Reviews"
         self.categoriesLabel.text = business.categories
         
@@ -48,16 +50,27 @@ class BusinessDetailVC: UITableViewController {
             isClosedLabel.text = "Open"
             isClosedLabel.textColor = .green
         }
-        
-        if let imageURL = business.imageURL {
-                businessImageView.setImageWith(imageURL)
-        }
-        
         displayAddressLabel.text = business.address
         displayPhoneLabel.text = business.displayPhone
+    }
+    
+    fileprivate func setupImageViews() {
+        if let ratingImageURL = business.ratingImageURL {
+            self.ratingImageView.setImageWith(ratingImageURL)
+        }
         
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 50
-        
+        if let imageURL = business.imageURL {
+            businessImageView.setImageWith(imageURL)
+        }
+    }
+    
+    fileprivate func setupAnnotation() {
+        if let coordinate = business.coordinate, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+            mapView.addAnnotation(annotation)
+            mapView.showAnnotations([annotation], animated: true)
+        }
     }
 }

@@ -12,9 +12,9 @@ class BusinessesTableVC: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    var isDownloadingMoreData = false
-    var refreshControl: UIRefreshControl!
-    var footerActivityIndicatorView: UIView!
+    fileprivate var isDownloadingMoreData = false
+    fileprivate var refreshControl: UIRefreshControl!
+    fileprivate var footerActivityIndicatorView: UIView!
     var businesses = [Business]()
     var businessContainerVC: BusinessesContainerVC?
     
@@ -27,14 +27,14 @@ class BusinessesTableVC: UIViewController {
         refreshControl.addTarget(self, action: #selector(refreshSearch), for: .valueChanged)
     }
     
-    func setupDelegates() {
+    fileprivate func setupDelegates() {
         tableView.dataSource = self
         tableView.delegate = self
     }
     
     // MARK: Target-Action
     
-    func refreshSearch(sender: UIRefreshControl) {
+    @objc fileprivate func refreshSearch(sender: UIRefreshControl) {
         businessContainerVC?.performSearch()
     }
     
@@ -44,25 +44,25 @@ class BusinessesTableVC: UIViewController {
 
 extension BusinessesTableVC {
     
-    func setupVCViews() {
+    fileprivate func setupVCViews() {
         tableViewSetup()
         refreshControlSetup()
         addFooterView()
         footerViewSetup()
     }
 
-    func tableViewSetup() {
+    fileprivate func tableViewSetup() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
     }
     
-    func refreshControlSetup() {
+    fileprivate func refreshControlSetup() {
         self.refreshControl = UIRefreshControl()
         tableView.insertSubview(refreshControl, at: 0)
     }
     
     /// Footer view for activity indicator (infinite scrolling)
-    func addFooterView() {
+    fileprivate func addFooterView() {
         footerActivityIndicatorView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 50))
         let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         activityIndicatorView.center = footerActivityIndicatorView.center
@@ -76,7 +76,7 @@ extension BusinessesTableVC {
 
 extension BusinessesTableVC: UIScrollViewDelegate {
     
-    func footerViewSetup() {
+    fileprivate func footerViewSetup() {
         if tableView.contentOffset.y > tableView.contentSize.height - tableView.bounds.height - 55 && tableView.isDragging {
             footerActivityIndicatorView.isHidden = false
         } else {
