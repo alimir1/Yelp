@@ -13,7 +13,7 @@
         <!--Yelp-->
         <scene sceneID="5L9-Uz-lNK">
             <objects>
-                <viewController storyboardIdentifier="businessTBVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2xI-yr-O5N" customClass="BusinessesTableVC" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="businessTBVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2xI-yr-O5N" customClass="BusinessesTableVC" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hR0-74-jRp"/>
                         <viewControllerLayoutGuide type="bottom" id="VBY-gq-v8E"/>
@@ -139,7 +139,7 @@
         <!--Businesses MapVC-->
         <scene sceneID="fuS-c7-3Pa">
             <objects>
-                <viewController storyboardIdentifier="businessMapVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mnN-fp-3Lb" customClass="BusinessesMapVC" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="businessMapVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mnN-fp-3Lb" customClass="BusinessesMapVC" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FCQ-R3-277"/>
                         <viewControllerLayoutGuide type="bottom" id="2HP-VE-SjC"/>

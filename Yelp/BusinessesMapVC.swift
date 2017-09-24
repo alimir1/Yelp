@@ -12,8 +12,6 @@ import MapKit
 class BusinessesMapVC: UIViewController {
     
     @IBOutlet var mapView: MKMapView!
-    
-    var businessContainerVC: BusinessesContainerVC!
     var annotations = [MKAnnotation]()
     
     var businesses = [Business]() {
@@ -29,18 +27,19 @@ class BusinessesMapVC: UIViewController {
     }
     
     func addAnnotationsToMap() {
-        mapView.removeAnnotations(annotations)
+        if annotations.count > 0 { mapView.removeAnnotations(annotations) }
         annotations.removeAll()
         for business in businesses {
             guard let latitude = business.coordinate?.latitude else { continue }
             guard let longitude = business.coordinate?.longitude else { continue }
             let annotation = MKPointAnnotation()
-            annotation.title = business.name!
-            annotation.subtitle = business.categories!
+            annotation.title = business.name ?? ""
+            annotation.subtitle = business.categories ?? ""
             annotation.coordinate =  CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             annotations.append(annotation)
         }
         mapView.addAnnotations(annotations)
+        mapView.showAnnotations(annotations, animated: true)
     }
     
 }

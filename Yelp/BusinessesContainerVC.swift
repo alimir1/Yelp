@@ -10,8 +10,8 @@ import UIKit
 import MBProgressHUD
 
 @objc protocol BusinessesContainerVCDelegate: class {
-    @objc optional func businessesContainerVC(_ viewController: BusinessesContainerVC, didPerformSearch businesses: [Business]?, error: Error?)
-    @objc optional func businessesContainerVC(_ viewController: BusinessesContainerVC, didPerformMoreSearch businesses: [Business]?, error: Error?)
+    @objc optional func businessesContainerVC(_ controller: BusinessesContainerVC, didPerformSearch error: Error?)
+    @objc optional func businessesContainerVC(_ controller: BusinessesContainerVC, didPerformMoreSearch error: Error?)
 }
 
 class BusinessesContainerVC: UIViewController {
@@ -19,28 +19,50 @@ class BusinessesContainerVC: UIViewController {
     // MARK: Outlets
     @IBOutlet var changeLayoutButton: UIButton!
     
-    
-    
-    
     // MARK: Stored Properties
     
     var mapViewController: BusinessesMapVC!
-    var tableViewControlelr: BusinessesTableVC!
+    var tableViewController: BusinessesTableVC!
+    var searchBar: UISearchBar!
     var searchTerm = SearchTerm()
     weak var delegate: BusinessesContainerVCDelegate?
+    
+    
+    var businesses = [Business]() {
+        didSet {
+            if isListView {
+                tableViewController.businesses = businesses
+                tableViewController.businessContainerVC = self
+                self.delegate = tableViewController
+                self.tableViewController?.tableView.reloadData()
+            } else {
+                mapViewController.businesses = businesses
+            }
+        }
+    }
+    
+    func refreshVCs() {
+        if isListView {
+            removeVC(vc: mapViewController)
+            addVC(vc: tableViewController)
+            tableViewController.businesses = businesses
+            tableViewController.businessContainerVC = self
+            self.delegate = tableViewController
+            self.tableViewController?.tableView.reloadData()
+            changeLayoutButton.setTitle("Map", for: .normal)
+        } else {
+            removeVC(vc: tableViewController)
+            addVC(vc: mapViewController)
+            mapViewController.businesses = businesses
+            changeLayoutButton.setTitle("List", for: .normal)
+        }
+    }
     
     // MARK: Property Observers
     
     var isListView = true {
         didSet {
-            if isListView {
-                removeVC(vc: mapViewController)
-                addVC(vc: tableViewControlelr)
-            } else {
-                removeVC(vc: tableViewControlelr)
-                addVC(vc: mapViewController)
-                mapViewController.businesses = tableViewControlelr.businesses
-            }
+            refreshVCs()
         }
     }
     
@@ -49,12 +71,16 @@ class BusinessesContainerVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addVC(vc: tableViewControlelr)
+        searchBarSetup()
+        searchBar.delegate = self
+        
+        addVC(vc: tableViewController)
+        performSearch()
     }
     
     func addVC(vc: UIViewController) {
         addChildViewController(vc)
-        vc.view.frame = view.frame
+        vc.view.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         vc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(vc.view)
         vc.didMove(toParentViewController: self)
@@ -64,6 +90,12 @@ class BusinessesContainerVC: UIViewController {
         vc.willMove(toParentViewController: nil)
         vc.view.removeFromSuperview()
         vc.removeFromParentViewController()
+    }
+    
+    func searchBarSetup() {
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 800, height: 30))
+        searchBar.sizeToFit()
+        navigationItem.titleView = searchBar
     }
 }
 
@@ -79,52 +111,61 @@ extension BusinessesContainerVC {
 
 extension BusinessesContainerVC {
     /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "businessesTBVC" {
-            let businessesTBVC = segue.destination as! BusinessesTableVC
-            businessesTBVC.businessesContainerVC = self
-        }
-        
-        if segue.identifier == "mapVC" {
-            let mapVC = segue.destination as! BusinessesMapVC
-            mapVC.businessContainerVC = self
-        }
-        
-        if segue.identifier == "filtersVC" {
-            let navCtrl = segue.destination as! UINavigationController
-            let filtersVC = navCtrl.topViewController as! FilterViewController
-            filtersVC.searchTerm = searchTerm
-        }
-    }*/
-    
-    /*func lfksdjfk(from oldVC: UIViewController, to newVC: UIViewController) {
-        // Prepare the two view controllers for the change.
-        oldVC.willMove(toParentViewController: nil)
-        addChildViewController(newVC)
-        // Get the start frame of the new view controller and the end frame
-        // for the old view controller. Both rectangles are offscreen.
-        newVC.view.frame = view.frame
-        transition(from: oldVC, to: newVC, duration: 0.25, options: [], animations: nil)
-        oldVC.removeFromParentViewController()
-        newVC.didMove(toParentViewController: self)
-    }*/
+     }*/
 }
 
 // MARK: - Networking
 
 extension BusinessesContainerVC {
-    func performMoreSearch(with searchTerm: SearchTerm) {
+    func performMoreSearch() {
         Business.searchWithTerm(term: searchTerm.term, sort: searchTerm.sort, categories: searchTerm.categories, deals: searchTerm.deals, distanceLimit: searchTerm.distanceLimit, shouldLoadMore: true) {
             (businesses, error) in
-            self.delegate?.businessesContainerVC?(self, didPerformMoreSearch: businesses, error: error)
+            self.delegate?.businessesContainerVC?(self, didPerformMoreSearch: error)
+            guard let businesses = businesses else { return }
+            for business in businesses {
+                self.businesses.append(business)
+            }
         }
     }
     
-    func performSearch(with term: SearchTerm) {
+    func performSearch() {
         MBProgressHUD.showAdded(to: self.view, animated: true)
-        Business.searchWithTerm(term: term.term, sort: term.sort, categories: term.categories, deals: term.deals, distanceLimit: term.distanceLimit) {
+        Business.searchWithTerm(term: searchTerm.term, sort: searchTerm.sort, categories: searchTerm.categories, deals: searchTerm.deals, distanceLimit: searchTerm.distanceLimit) {
             (businesses, error) in
+            self.delegate?.businessesContainerVC?(self, didPerformSearch: error)
             MBProgressHUD.hide(for: self.view, animated: true)
-            self.delegate?.businessesContainerVC?(self, didPerformSearch: businesses, error: error)
+            guard let businesses = businesses else {
+                print("no results!")
+                self.businesses = []
+                return
+            }
+            self.businesses = businesses
         }
+    }
+}
+
+// MARK: - UISearchBar delegate
+
+extension BusinessesContainerVC: UISearchBarDelegate {
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = true
+        return true
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = false
+        return true
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchTerm.term = searchBar.text ?? ""
+        performSearch()
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        resignFirstResponder()
+        searchBar.resignFirstResponder()
     }
 }

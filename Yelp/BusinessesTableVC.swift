@@ -8,22 +8,15 @@
 
 import UIKit
 
-class BusinessesTableVC: UIViewController, BusinessesContainerVCDelegate {
+class BusinessesTableVC: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
     var isDownloadingMoreData = false
     var refreshControl: UIRefreshControl!
-    var searchBar: UISearchBar!
     var footerActivityIndicatorView: UIView!
-    var businessesContainerVC: BusinessesContainerVC!
     var businesses = [Business]()
-    
-    var searchTerm = SearchTerm() {
-        didSet {
-            businessesContainerVC.searchTerm = searchTerm
-        }
-    }
+    var businessContainerVC: BusinessesContainerVC?
     
     // MARK: - Lifecycle
     
@@ -32,28 +25,17 @@ class BusinessesTableVC: UIViewController, BusinessesContainerVCDelegate {
         setupVCViews()
         setupDelegates()
         refreshControl.addTarget(self, action: #selector(refreshSearch), for: .valueChanged)
-        performSearch(with: searchTerm)
     }
     
     func setupDelegates() {
-        businessesContainerVC.delegate = self
-        searchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
-    }
-    
-    func performSearch(with term: SearchTerm) {
-        businessesContainerVC.performSearch(with: searchTerm)
-    }
-    
-    func performMoreSearch(with term: SearchTerm) {
-        businessesContainerVC.performMoreSearch(with: searchTerm)
     }
     
     // MARK: Target-Action
     
     func refreshSearch(sender: UIRefreshControl) {
-        performSearch(with: searchTerm)
+        businessContainerVC?.performSearch()
     }
     
 }
@@ -63,19 +45,12 @@ class BusinessesTableVC: UIViewController, BusinessesContainerVCDelegate {
 extension BusinessesTableVC {
     
     func setupVCViews() {
-        searchBarSetup()
         tableViewSetup()
         refreshControlSetup()
         addFooterView()
         footerViewSetup()
     }
-    
-    func searchBarSetup() {
-        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 800, height: 30))
-        searchBar.sizeToFit()
-        businessesContainerVC.navigationItem.titleView = searchBar
-    }
-    
+
     func tableViewSetup() {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
@@ -113,61 +88,9 @@ extension BusinessesTableVC: UIScrollViewDelegate {
         footerViewSetup()
         guard !isDownloadingMoreData else { return }
         if scrollView.contentOffset.y > scrollView.contentSize.height - tableView.bounds.height && tableView.isDragging {
-                isDownloadingMoreData = true
-                performMoreSearch(with: self.searchTerm)
+            isDownloadingMoreData = true
+            self.businessContainerVC?.performMoreSearch()
         }
-    }
-}
-
-// MARK: - BusinessesContainerVCDelegate
-
-extension BusinessesTableVC {
-    func businessesContainerVC(_ viewController: BusinessesContainerVC, didPerformSearch businesses: [Business]?, error: Error?) {
-        if self.refreshControl.isRefreshing { self.refreshControl.endRefreshing() }
-        guard let businesses = businesses else {
-            print("no results!")
-            self.businesses = []
-            self.tableView.reloadData()
-            return
-        }
-        self.businesses = businesses
-        self.tableView.reloadData()
-    }
-    
-    func businessesContainerVC(_ viewController: BusinessesContainerVC, didPerformMoreSearch businesses: [Business]?, error: Error?) {
-        self.isDownloadingMoreData = false
-        self.footerViewSetup()
-        guard let businesses = businesses else { return }
-        for business in businesses {
-            self.businesses.append(business)
-        }
-        self.tableView.reloadData()
-    }
-}
-
-// MARK: - UISearchBar delegate
-
-extension BusinessesTableVC: UISearchBarDelegate {
-    
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.showsCancelButton = true
-        return true
-    }
-    
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.showsCancelButton = false
-        return true
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchTerm.term = searchBar.text ?? ""
-        performSearch(with: searchTerm)
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        resignFirstResponder()
-        searchBar.resignFirstResponder()
     }
 }
 
@@ -177,13 +100,26 @@ extension BusinessesTableVC: UISearchBarDelegate {
 extension BusinessesTableVC {
     
     @IBAction func unwindToBusinessVC(segue: UIStoryboardSegue) {
-        if segue.identifier == "filtersVC" {
+        /*if segue.identifier == "filtersVC" {
             let filtersVC = segue.source as! FilterViewController
             if let searchTerm = filtersVC.searchTerm {
                 self.searchTerm = searchTerm
             }
             performSearch(with: searchTerm)
-        }
+        }*/
+    }
+}
+
+// MARK: - BusinessContainerVCDelegate
+
+extension BusinessesTableVC: BusinessesContainerVCDelegate {
+    func businessesContainerVC(_ controller: BusinessesContainerVC, didPerformSearch error: Error?) {
+        if self.refreshControl.isRefreshing { self.refreshControl.endRefreshing() }
+    }
+    
+    func businessesContainerVC(_ controller: BusinessesContainerVC, didPerformMoreSearch error: Error?) {
+        self.isDownloadingMoreData = false
+        self.footerViewSetup()
     }
 }
 

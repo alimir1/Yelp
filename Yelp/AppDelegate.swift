@@ -24,10 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let tableVC = storyboard.instantiateViewController(withIdentifier: "businessTBVC") as! BusinessesTableVC
         let mapVC = storyboard.instantiateViewController(withIdentifier: "businessMapVC") as! BusinessesMapVC
-        tableVC.businessesContainerVC = containerVC
         
         containerVC.mapViewController = mapVC
-        containerVC.tableViewControlelr = tableVC
+        containerVC.tableViewController = tableVC
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
