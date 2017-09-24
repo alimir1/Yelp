@@ -93,7 +93,7 @@ class BusinessesContainerVC: UIViewController {
     }
     
     func searchBarSetup() {
-        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 800, height: 30))
+        searchBar = UISearchBar()
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
     }
