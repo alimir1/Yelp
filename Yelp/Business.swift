@@ -16,6 +16,8 @@ class Business: NSObject {
     let distance: String?
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
+    let displayPhone: String?
+    let isClosed: Bool?
     let coordinate: (latitude: Double?, longitude: Double?)?
     
     init(dictionary: NSDictionary) {
@@ -27,6 +29,10 @@ class Business: NSObject {
         } else {
             imageURL = nil
         }
+        
+        isClosed = dictionary["is_closed"] as? Bool
+        
+        displayPhone = dictionary["display_phone"] as? String
         
         let location = dictionary["location"] as? NSDictionary
         var address = ""

@@ -46,7 +46,7 @@ class BusinessesMapVC: UIViewController {
 
 
 extension BusinessesMapVC: MKMapViewDelegate {
-    /*func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "pin"
         print("debug: annotation coordinate: \(annotation.coordinate)")
         var view: MKPinAnnotationView
@@ -61,5 +61,10 @@ extension BusinessesMapVC: MKMapViewDelegate {
             view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
         }
         return view
-    }*/
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+    }
+    
 }

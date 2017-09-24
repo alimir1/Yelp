@@ -125,5 +125,9 @@ extension BusinessesTableVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let businessDetailVC = storyboard.instantiateViewController(withIdentifier: "businessDetailVC") as! BusinessDetailVC
+        businessDetailVC.business = businesses[indexPath.row]
+        self.navigationController?.pushViewController(businessDetailVC, animated: true)
     }
 }
