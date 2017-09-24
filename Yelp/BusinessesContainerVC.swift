@@ -17,12 +17,15 @@ import MBProgressHUD
 class BusinessesContainerVC: UIViewController {
     
     // MARK: Outlets
-    @IBOutlet var businessesTBContainerView: UIView!
-    @IBOutlet var businessesMapContainerView: UIView!
     @IBOutlet var changeLayoutButton: UIButton!
+    
+    
+    
     
     // MARK: Stored Properties
     
+    var mapViewController: BusinessesMapVC!
+    var tableViewControlelr: BusinessesTableVC!
     var searchTerm = SearchTerm()
     weak var delegate: BusinessesContainerVCDelegate?
     
@@ -31,13 +34,12 @@ class BusinessesContainerVC: UIViewController {
     var isListView = true {
         didSet {
             if isListView {
-                businessesTBContainerView.isHidden = false
-                businessesMapContainerView.isHidden = true
-                changeLayoutButton.setTitle("Map", for: .normal)
+                removeVC(vc: mapViewController)
+                addVC(vc: tableViewControlelr)
             } else {
-                businessesTBContainerView.isHidden = true
-                businessesMapContainerView.isHidden = false
-                changeLayoutButton.setTitle("List", for: .normal)
+                removeVC(vc: tableViewControlelr)
+                addVC(vc: mapViewController)
+                mapViewController.businesses = tableViewControlelr.businesses
             }
         }
     }
@@ -46,6 +48,22 @@ class BusinessesContainerVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        addVC(vc: tableViewControlelr)
+    }
+    
+    func addVC(vc: UIViewController) {
+        addChildViewController(vc)
+        vc.view.frame = view.frame
+        vc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(vc.view)
+        vc.didMove(toParentViewController: self)
+    }
+    
+    func removeVC(vc: UIViewController) {
+        vc.willMove(toParentViewController: nil)
+        vc.view.removeFromSuperview()
+        vc.removeFromParentViewController()
     }
 }
 
@@ -60,7 +78,7 @@ extension BusinessesContainerVC {
 // MARK: - Navigation
 
 extension BusinessesContainerVC {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "businessesTBVC" {
             let businessesTBVC = segue.destination as! BusinessesTableVC
             businessesTBVC.businessesContainerVC = self
@@ -76,7 +94,19 @@ extension BusinessesContainerVC {
             let filtersVC = navCtrl.topViewController as! FilterViewController
             filtersVC.searchTerm = searchTerm
         }
-    }
+    }*/
+    
+    /*func lfksdjfk(from oldVC: UIViewController, to newVC: UIViewController) {
+        // Prepare the two view controllers for the change.
+        oldVC.willMove(toParentViewController: nil)
+        addChildViewController(newVC)
+        // Get the start frame of the new view controller and the end frame
+        // for the old view controller. Both rectangles are offscreen.
+        newVC.view.frame = view.frame
+        transition(from: oldVC, to: newVC, duration: 0.25, options: [], animations: nil)
+        oldVC.removeFromParentViewController()
+        newVC.didMove(toParentViewController: self)
+    }*/
 }
 
 // MARK: - Networking

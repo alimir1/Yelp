@@ -60,7 +60,7 @@ class Business: NSObject {
         
         let distanceMeters = dictionary["distance"] as? NSNumber
         
-        let coordinate = dictionary["coordinate"] as? NSDictionary
+        let coordinate = (dictionary["location"] as? NSDictionary)?["coordinate"] as? NSDictionary
         let latitude = coordinate?["latitude"] as? Double
         let longitude = coordinate?["longitude"] as? Double
         self.coordinate = (latitude: latitude, longitude: longitude)

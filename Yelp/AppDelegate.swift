@@ -15,7 +15,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let businessesNavCtrl = storyboard.instantiateViewController(withIdentifier: "businessesNavCtrl") as! UINavigationController
+        let containerVC = businessesNavCtrl.topViewController as! BusinessesContainerVC
+        
+        
+        let tableVC = storyboard.instantiateViewController(withIdentifier: "businessTBVC") as! BusinessesTableVC
+        let mapVC = storyboard.instantiateViewController(withIdentifier: "businessMapVC") as! BusinessesMapVC
+        tableVC.businessesContainerVC = containerVC
+        
+        containerVC.mapViewController = mapVC
+        containerVC.tableViewControlelr = tableVC
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        window?.rootViewController = businessesNavCtrl
+        window?.makeKeyAndVisible()
+        
         return true
     }
 

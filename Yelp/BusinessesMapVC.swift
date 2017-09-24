@@ -9,51 +9,58 @@
 import UIKit
 import MapKit
 
-class BusinessesMapVC: UIViewController, BusinessesContainerVCDelegate {
+class BusinessesMapVC: UIViewController {
     
     @IBOutlet var mapView: MKMapView!
     
     var businessContainerVC: BusinessesContainerVC!
+    var annotations = [MKAnnotation]()
     
     var businesses = [Business]() {
         didSet {
+            print("there are \(businesses.count) in mapViewVC")
             addAnnotationsToMap()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        businessContainerVC.delegate = self
-        
+        mapView.delegate = self
     }
     
     func addAnnotationsToMap() {
-        var annotations = [MKAnnotation]()
-        
-        annotations = businesses.map { business in
+        mapView.removeAnnotations(annotations)
+        annotations.removeAll()
+        for business in businesses {
+            guard let latitude = business.coordinate?.latitude else { continue }
+            guard let longitude = business.coordinate?.longitude else { continue }
             let annotation = MKPointAnnotation()
             annotation.title = business.name!
             annotation.subtitle = business.categories!
-            annotation.coordinate =  CLLocationCoordinate2D(latitude: business.coordinate!.latitude!, longitude: business.coordinate!.longitude!)
-            return annotation
+            annotation.coordinate =  CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            annotations.append(annotation)
         }
-        
         mapView.addAnnotations(annotations)
     }
     
-    func businessesContainerVC(_ viewController: BusinessesContainerVC, didPerformSearch businesses: [Business]?, error: Error?) {
-        if let businesses = businesses {
-            self.businesses = businesses
+}
+
+
+extension BusinessesMapVC: MKMapViewDelegate {
+    /*func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "pin"
+        print("debug: annotation coordinate: \(annotation.coordinate)")
+        var view: MKPinAnnotationView
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            as? MKPinAnnotationView {
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.canShowCallout = true
+            view.calloutOffset = CGPoint(x: -5, y: 5)
+            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure) as UIView
         }
-    }
-    
-    func businessesContainerVC(_ viewController: BusinessesContainerVC, didPerformMoreSearch businesses: [Business]?, error: Error?) {
-        if let businesses = businesses {
-            for business in businesses {
-                self.businesses.append(business)
-            }
-        }
-    }
-    
+        return view
+    }*/
 }
