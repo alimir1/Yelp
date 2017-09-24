@@ -9,6 +9,19 @@
 import UIKit
 import MapKit
 
+class YelpAnnotation: NSObject, MKAnnotation {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var subtitle: String?
+    var atIndex: Int?
+    init(coordinate: CLLocationCoordinate2D, at index: Int) {
+        self.coordinate = coordinate
+        self.atIndex = index
+        title = nil
+        subtitle = nil
+    }
+}
+
 class BusinessesMapVC: UIViewController {
     
     @IBOutlet var mapView: MKMapView!
@@ -29,13 +42,13 @@ class BusinessesMapVC: UIViewController {
     func addAnnotationsToMap() {
         if annotations.count > 0 { mapView.removeAnnotations(annotations) }
         annotations.removeAll()
-        for business in businesses {
+        for (index, business) in businesses.enumerated() {
             guard let latitude = business.coordinate?.latitude else { continue }
             guard let longitude = business.coordinate?.longitude else { continue }
-            let annotation = MKPointAnnotation()
+            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            let annotation = YelpAnnotation(coordinate: coordinate, at: index)
             annotation.title = business.name ?? ""
             annotation.subtitle = business.categories ?? ""
-            annotation.coordinate =  CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             annotations.append(annotation)
         }
         mapView.addAnnotations(annotations)
@@ -44,11 +57,9 @@ class BusinessesMapVC: UIViewController {
     
 }
 
-
 extension BusinessesMapVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "pin"
-        print("debug: annotation coordinate: \(annotation.coordinate)")
         var view: MKPinAnnotationView
         if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
             as? MKPinAnnotationView {
@@ -63,8 +74,12 @@ extension BusinessesMapVC: MKMapViewDelegate {
         return view
     }
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let annotation = view.annotation as? YelpAnnotation else { return }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let businessDetailVC = storyboard.instantiateViewController(withIdentifier: "businessDetailVC") as! BusinessDetailVC
+        businessDetailVC.business = businesses[annotation.atIndex!]
+        self.navigationController?.pushViewController(businessDetailVC, animated: true)
     }
     
 }
