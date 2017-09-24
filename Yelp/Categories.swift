@@ -10,15 +10,9 @@ import Foundation
 
 let YelpCategories = [
     "african" : "African",
-    "arabian" : "Arab",
     "chinese" : "Chinese",
     "french" : "French",
-    "greek" : "Greek",
-    "indpak" : "Indian",
-    "italian" : "Italian",
     "japanese" : "Japanese",
     "mexican" : "Mexican",
-    "persian" : "Persian",
     "russian" : "Russian",
-    "turkish" : "Turkish"
 ]
