@@ -9,10 +9,16 @@
 import UIKit
 
 class FilterViewController: UIViewController {
-    @IBOutlet fileprivate var tableView: UITableView!
-    var filters = [Filter : [Any]]()
     
+    // MARK: Outlets
+    @IBOutlet fileprivate var tableView: UITableView!
+    
+    
+    // MARK: Stored Properties
+    var filters = [Filter : [Any]]()
     var searchTerm: SearchTerm?
+    
+    // MARK: Property Observers
     
     fileprivate var offeringDeal = false {
         didSet {
@@ -40,38 +46,41 @@ class FilterViewController: UIViewController {
         }
     }
     
+    // MARK: Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         var catFilters = [String : Bool]()
-        
         guard searchTerm != nil else { return }
-        
         if let categories = searchTerm!.categories {
             for category in categories {
                 catFilters[category] = true
             }
         }
         categoryFilters = catFilters
-        
         for (yelpCategory, _)  in YelpCategories {
             if categoryFilters[yelpCategory] == nil {
                 categoryFilters[yelpCategory] = false
             }
         }
-        
         sortMode = searchTerm?.sort ?? .bestMatched
-        
         offeringDeal = searchTerm?.deals ?? false
-        
         distanceLimit = Int(searchTerm?.distanceLimit ?? 5)
         
+        setupFilters()
+        
+    }
+    
+    // MARK: Helpers
+    
+    func setupFilters() {
         filters[.offeringDeal] = [true]
         filters[.distance] = (5...YelpMaxRadiusFilter).filter { $0 % 5 == 0 }
         filters[.sortBy] = [YelpSortMode.bestMatched, YelpSortMode.distance, YelpSortMode.highestRated]
         filters[.category] = YelpCategories.map {$0.key}.sorted {$0 < $1}
-        
     }
+    
+    // MARK: Target-Action
     
     @IBAction fileprivate func onCancel(sender: AnyObject?) {
         self.dismiss(animated: true, completion: nil)
@@ -80,9 +89,10 @@ class FilterViewController: UIViewController {
     @IBAction fileprivate func onSave(sender: AnyObject?) {
         performSegue(withIdentifier: "filtersVC", sender: self)
     }
-    
 }
 
+
+// MARK: - UITableView
 
 extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
     

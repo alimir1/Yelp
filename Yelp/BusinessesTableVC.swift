@@ -10,7 +10,11 @@ import UIKit
 
 class BusinessesTableVC: UIViewController {
     
+    // MARK: Outlets
+    
     @IBOutlet var tableView: UITableView!
+    
+    // MARK: Stored Properties
     
     fileprivate var isDownloadingMoreData = false
     fileprivate var refreshControl: UIRefreshControl!
@@ -18,7 +22,7 @@ class BusinessesTableVC: UIViewController {
     var businesses = [Business]()
     var businessContainerVC: BusinessesContainerVC?
     
-    // MARK: - Lifecycle
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +30,8 @@ class BusinessesTableVC: UIViewController {
         setupDelegates()
         refreshControl.addTarget(self, action: #selector(refreshSearch), for: .valueChanged)
     }
+    
+    // MARK: Helpers
     
     fileprivate func setupDelegates() {
         tableView.dataSource = self

@@ -9,24 +9,17 @@
 import UIKit
 import MapKit
 
-class YelpAnnotation: NSObject, MKAnnotation {
-    var coordinate: CLLocationCoordinate2D
-    var title: String?
-    var subtitle: String?
-    var atIndex: Int?
-    
-    init(coordinate: CLLocationCoordinate2D, at index: Int) {
-        self.coordinate = coordinate
-        self.atIndex = index
-        title = nil
-        subtitle = nil
-    }
-}
-
 class BusinessesMapVC: UIViewController {
     
+    // MARK: Outlets
+    
     @IBOutlet fileprivate var mapView: MKMapView!
+    
+    // MARK: Stored Properties
+    
     fileprivate var annotations = [MKAnnotation]()
+    
+    // MARK: Property Observers
     
     var businesses = [Business]() {
         didSet {
@@ -34,6 +27,9 @@ class BusinessesMapVC: UIViewController {
             addAnnotationsToMap()
         }
     }
+    
+    
+    // MARK: Lifecyle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +53,8 @@ class BusinessesMapVC: UIViewController {
     }
     
 }
+
+// MARK: - MKMapViewDelegate
 
 extension BusinessesMapVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

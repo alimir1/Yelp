@@ -9,10 +9,14 @@
 import UIKit
 import MBProgressHUD
 
+// MARK: - BusinessesContainerVCDelegate Protocol
+
 @objc protocol BusinessesContainerVCDelegate: class {
     @objc optional func businessesContainerVC(_ controller: BusinessesContainerVC, didPerformSearch error: Error?)
     @objc optional func businessesContainerVC(_ controller: BusinessesContainerVC, didPerformMoreSearch error: Error?)
 }
+
+// MARK: - BusinessesContainerVC Class
 
 class BusinessesContainerVC: UIViewController {
     
@@ -27,37 +31,6 @@ class BusinessesContainerVC: UIViewController {
     fileprivate var searchTerm = SearchTerm()
     weak var delegate: BusinessesContainerVCDelegate?
     
-    
-    fileprivate var businesses = [Business]() {
-        didSet {
-            if isListView {
-                tableViewController.businesses = businesses
-                tableViewController.businessContainerVC = self
-                self.delegate = tableViewController
-                self.tableViewController?.tableView.reloadData()
-            } else {
-                mapViewController.businesses = businesses
-            }
-        }
-    }
-    
-    fileprivate func refreshVCs() {
-        if isListView {
-            removeVC(vc: mapViewController)
-            addVC(vc: tableViewController)
-            tableViewController.businesses = businesses
-            tableViewController.businessContainerVC = self
-            self.delegate = tableViewController
-            self.tableViewController?.tableView.reloadData()
-            changeLayoutButton.setTitle("Map", for: .normal)
-        } else {
-            removeVC(vc: tableViewController)
-            addVC(vc: mapViewController)
-            mapViewController.businesses = businesses
-            changeLayoutButton.setTitle("List", for: .normal)
-        }
-    }
-    
     // MARK: Property Observers
     
     fileprivate var isListView = true {
@@ -66,14 +39,18 @@ class BusinessesContainerVC: UIViewController {
         }
     }
     
+    fileprivate var businesses = [Business]() {
+        didSet {
+            updateChildData()
+        }
+    }
+    
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         searchBarSetup()
         searchBar.delegate = self
-        
         addVC(vc: tableViewController)
         performSearch()
     }
@@ -105,13 +82,6 @@ extension BusinessesContainerVC {
     @IBAction fileprivate func onChangeLayout(sender: AnyObject?) {
         isListView = !isListView
     }
-}
-
-// MARK: - Navigation
-
-extension BusinessesContainerVC {
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     }*/
 }
 
 // MARK: - Networking
@@ -163,6 +133,34 @@ extension BusinessesContainerVC {
             }
             performSearch()
         }
+    }
+}
+
+// MARK: - Helpers
+
+extension BusinessesContainerVC {
+    fileprivate func updateChildData () {
+        if isListView {
+            tableViewController.businesses = businesses
+            tableViewController.businessContainerVC = self
+            self.delegate = tableViewController
+            self.tableViewController?.tableView.reloadData()
+        } else {
+            mapViewController.businesses = businesses
+        }
+    }
+    
+    fileprivate func refreshVCs() {
+        if isListView {
+            removeVC(vc: mapViewController)
+            addVC(vc: tableViewController)
+            changeLayoutButton.setTitle("Map", for: .normal)
+        } else {
+            removeVC(vc: tableViewController)
+            addVC(vc: mapViewController)
+            changeLayoutButton.setTitle("List", for: .normal)
+        }
+        updateChildData()
     }
 }
 

@@ -16,22 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let businessesNavCtrl = storyboard.instantiateViewController(withIdentifier: "businessesNavCtrl") as! UINavigationController
-        let containerVC = businessesNavCtrl.topViewController as! BusinessesContainerVC
-        
-        
-        let tableVC = storyboard.instantiateViewController(withIdentifier: "businessTBVC") as! BusinessesTableVC
-        let mapVC = storyboard.instantiateViewController(withIdentifier: "businessMapVC") as! BusinessesMapVC
-        
-        containerVC.mapViewController = mapVC
-        containerVC.tableViewController = tableVC
-        
-        window = UIWindow(frame: UIScreen.main.bounds)
-        
-        window?.rootViewController = businessesNavCtrl
-        window?.makeKeyAndVisible()
+        setupRootVC()
         
         return true
     }
@@ -58,6 +43,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func setupRootVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let businessesNavCtrl = storyboard.instantiateViewController(withIdentifier: "businessesNavCtrl") as! UINavigationController
+        let containerVC = businessesNavCtrl.topViewController as! BusinessesContainerVC
+        
+        
+        let tableVC = storyboard.instantiateViewController(withIdentifier: "businessTBVC") as! BusinessesTableVC
+        let mapVC = storyboard.instantiateViewController(withIdentifier: "businessMapVC") as! BusinessesMapVC
+        
+        containerVC.mapViewController = mapVC
+        containerVC.tableViewController = tableVC
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        window?.rootViewController = businessesNavCtrl
+        window?.makeKeyAndVisible()
+    }
+    
 }
 

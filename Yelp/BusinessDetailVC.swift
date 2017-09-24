@@ -11,6 +11,8 @@ import MapKit
 
 class BusinessDetailVC: UITableViewController {
     
+    // MARK: Outlets
+    
     @IBOutlet fileprivate var nameLabel: UILabel!
     @IBOutlet fileprivate var ratingImageView: UIImageView!
     @IBOutlet fileprivate var categoriesLabel: UILabel!
@@ -21,7 +23,11 @@ class BusinessDetailVC: UITableViewController {
     @IBOutlet fileprivate var displayAddressLabel: UILabel!
     @IBOutlet fileprivate var displayPhoneLabel: UILabel!
     
+    // MARK: Stored Properties
+    
     var business: Business!
+    
+    // MARK: Lifecyle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +37,8 @@ class BusinessDetailVC: UITableViewController {
         self.tableView.estimatedRowHeight = 50
         
     }
+    
+    // MARK: Helpers
     
     fileprivate func setupViews() {
         setupLabels()
