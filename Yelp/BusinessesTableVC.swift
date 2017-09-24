@@ -94,22 +94,6 @@ extension BusinessesTableVC: UIScrollViewDelegate {
     }
 }
 
-
-// MARK: - Navigation
-
-extension BusinessesTableVC {
-    
-    @IBAction func unwindToBusinessVC(segue: UIStoryboardSegue) {
-        /*if segue.identifier == "filtersVC" {
-            let filtersVC = segue.source as! FilterViewController
-            if let searchTerm = filtersVC.searchTerm {
-                self.searchTerm = searchTerm
-            }
-            performSearch(with: searchTerm)
-        }*/
-    }
-}
-
 // MARK: - BusinessContainerVCDelegate
 
 extension BusinessesTableVC: BusinessesContainerVCDelegate {

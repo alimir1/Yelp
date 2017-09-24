@@ -144,6 +144,28 @@ extension BusinessesContainerVC {
     }
 }
 
+// MARK: - Navigation
+extension BusinessesContainerVC {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "filtersVC" {
+            let navCtrl = segue.destination as! UINavigationController
+            let filterVC = navCtrl.topViewController as! FilterViewController
+            filterVC.searchTerm = searchTerm
+        }
+    }
+    
+    @IBAction func unwindToBusinessVC(segue: UIStoryboardSegue) {
+        if segue.identifier == "filtersVC" {
+            let filtersVC = segue.source as! FilterViewController
+            if let searchTerm = filtersVC.searchTerm {
+                self.searchTerm = searchTerm
+            }
+            performSearch()
+        }
+    }
+}
+
 // MARK: - UISearchBar delegate
 
 extension BusinessesContainerVC: UISearchBarDelegate {
