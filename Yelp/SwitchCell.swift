@@ -18,6 +18,8 @@ class SwitchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
+        
+        filterSwitch.onTintColor = UIColor(red: 0.7725, green: 0.1059, blue: 0.0275, alpha: 1.0)
     }
     
     @IBAction func onSwitchChanged(_ sender: UISwitch) {
