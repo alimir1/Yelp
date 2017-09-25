@@ -21,7 +21,7 @@ import MBProgressHUD
 class BusinessesContainerVC: UIViewController {
     
     // MARK: Outlets
-    @IBOutlet fileprivate var changeLayoutButton: UIButton!
+    @IBOutlet fileprivate var changeLayoutButton: UIBarButtonItem!
     
     // MARK: Stored Properties
     
@@ -71,6 +71,7 @@ class BusinessesContainerVC: UIViewController {
     
     fileprivate func searchBarSetup() {
         searchBar = UISearchBar()
+        searchBar.placeholder = "Restaurants..."
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
     }
@@ -154,11 +155,11 @@ extension BusinessesContainerVC {
         if isListView {
             removeVC(vc: mapViewController)
             addVC(vc: tableViewController)
-            changeLayoutButton.setTitle("Map", for: .normal)
+            changeLayoutButton.title = "Map"
         } else {
             removeVC(vc: tableViewController)
             addVC(vc: mapViewController)
-            changeLayoutButton.setTitle("List", for: .normal)
+            changeLayoutButton.title = "List"
         }
         updateChildData()
     }
