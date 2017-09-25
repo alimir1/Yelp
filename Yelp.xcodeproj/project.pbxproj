@@ -26,7 +26,6 @@
 		49A49D2B1F72DFB800290318 /* SearchTerm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A49D2A1F72DFB800290318 /* SearchTerm.swift */; };
 		49A49D2D1F72E49C00290318 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A49D2C1F72E49C00290318 /* Categories.swift */; };
 		49A5E7621F74BE02001D0779 /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A5E7611F74BE02001D0779 /* Pagination.swift */; };
-		49A5E7641F74C908001D0779 /* YelpSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A5E7631F74C908001D0779 /* YelpSwitch.swift */; };
 		49A5E7661F74C99C001D0779 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A5E7651F74C99C001D0779 /* Filter.swift */; };
 		49A5E7681F76C9A5001D0779 /* BusinessesContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A5E7671F76C9A5001D0779 /* BusinessesContainerVC.swift */; };
 		49A5E76A1F76CA31001D0779 /* BusinessesMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A5E7691F76CA31001D0779 /* BusinessesMapVC.swift */; };
@@ -65,7 +64,6 @@
 		49A49D2A1F72DFB800290318 /* SearchTerm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTerm.swift; sourceTree = "<group>"; };
 		49A49D2C1F72E49C00290318 /* Categories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		49A5E7611F74BE02001D0779 /* Pagination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
-		49A5E7631F74C908001D0779 /* YelpSwitch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpSwitch.swift; sourceTree = "<group>"; };
 		49A5E7651F74C99C001D0779 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		49A5E7671F76C9A5001D0779 /* BusinessesContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessesContainerVC.swift; sourceTree = "<group>"; };
 		49A5E7691F76CA31001D0779 /* BusinessesMapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessesMapVC.swift; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 			children = (
 				49A49D1F1F71A14E00290318 /* BusinessCell.swift */,
 				49A49D241F72D2A500290318 /* SwitchCell.swift */,
-				49A5E7631F74C908001D0779 /* YelpSwitch.swift */,
 				49A49D261F72D2C700290318 /* SelectionCell.swift */,
 			);
 			name = Views;
@@ -443,7 +440,6 @@
 				49A49D231F72C9F600290318 /* FilterViewController.swift in Sources */,
 				49A49D201F71A14E00290318 /* BusinessCell.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesTableVC.swift in Sources */,
-				49A5E7641F74C908001D0779 /* YelpSwitch.swift in Sources */,
 				49A5E7681F76C9A5001D0779 /* BusinessesContainerVC.swift in Sources */,
 				49A49D2B1F72DFB800290318 /* SearchTerm.swift in Sources */,
 				49A49D251F72D2A500290318 /* SwitchCell.swift in Sources */,
