@@ -1,13 +1,8 @@
-# Project 2 - *Yelp*
+# Yelp Clone
 
-**Yelp** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
+**Yelp Clone** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
-Time spent: **25** hours spent in total
-
-## User Stories
-
-The following **required** functionality is completed:
-
+## Features
 - [x] Search results page
    - [x] Table rows should be dynamic height according to the content height.
    - [x] Custom cells should have the proper Auto Layout constraints.
@@ -18,34 +13,15 @@ The following **required** functionality is completed:
    - [x] You can use the default UISwitch for on/off states.
    - [x] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
    - [x] Display some of the available Yelp categories (choose any 3-4 that you want).
-
-The following **optional** features are implemented:
-
 - [x] Search results page
    - [x] Infinite scroll for restaurant results.
    - [x] Implement map view of restaurant results.
-- [ ] Filter page
-   - [ ] Implement a custom switch instead of the default UISwitch.
-   - [ ] Distance filter should expand as in the real Yelp app
-   - [ ] Categories should show a subset of the full list with a "See All" row to expand. Category list is [here](http://www.yelp.com/developers/documentation/category_list).
-- [x] Implement the restaurant detail page.
-
-Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
-
-1. Implementing a custom switch instead of a default UISwitch
-2. Switching between mapView and listView (and how to better implement a container view controller)
+- [x] Implemented the restaurant detail page.
 
 ## Video Walkthrough
-
-Here's a walkthrough of implemented user stories:
-
 <img src='http://i.imgur.com/N59Thr8.gif' title='ListViewController' width='' alt='ListViewController' /> <img src='http://i.imgur.com/NMooJ3V.gif' title='MapViewController' width='' alt='MapViewController' /> <img src='http://i.imgur.com/KI12of9.gif' title='MapViewController' width='' alt='MapViewController' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
-
-## Notes
-
-Describe any challenges encountered while building the app.
 
 ## License
 
