@@ -21,8 +21,6 @@
 ## Video Walkthrough
 <img src='http://i.imgur.com/N59Thr8.gif' title='ListViewController' width='' alt='ListViewController' /> <img src='http://i.imgur.com/NMooJ3V.gif' title='MapViewController' width='' alt='MapViewController' /> <img src='http://i.imgur.com/KI12of9.gif' title='MapViewController' width='' alt='MapViewController' />
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
-
 ## License
 
     Copyright 2017 Ali Mir
